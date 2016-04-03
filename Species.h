@@ -7,9 +7,19 @@ private:
 	int index;
 
 public:
+	Species() {}
+
 	Species(char c){
 		index = 0;
 		initial = c;
+	}
+
+	bool operator != (Species s) {
+		return initial != s.initial;
+	}
+
+	int operator [] (int pc) {
+		return instructions[pc];
 	}
 
 	void addInstruction(int instruction, int n){
@@ -30,4 +40,4 @@ public:
 			instructions[index] = instruction;
 		}
 	}
-}
+};

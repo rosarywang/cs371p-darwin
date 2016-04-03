@@ -1,7 +1,9 @@
 using namespace std;
-#include <cstdlib>
 #include "Species.h"
+// #include "Darwin.h"
+#include <cstdlib>
 
+class Darwin;
 class Creature {
 private:
 	Species s;
@@ -25,37 +27,41 @@ public:
 		max_col = mc;
 	}
 
+	// int operator [][] 
+
 	//instructions function
 	void readInstruction(){
-		int n = this.s[pc]/10;
-		switch(this.s[pc]%10){
-			case 0:
-				hop();
-				break;
-			case 1:
-				left();
-				break;
-			case 2:
-				right();
-				break;
-			case 3: 
-				infect();
-				break;
-			case 4:
-				if_empty(n);
-				break;
-			case 5:
-				if_wall(n);
-				break;
-			case 6:
-				if_random(n);
-				break;
-			case 7:
-				if_enemy(n);
-				break;
-			case 8:
-				go(n);
-				break;
+		if(!moved) {
+			int n = s[pc]/10;
+			switch(s[pc]%10){
+				case 0:
+					hop();
+					break;
+				case 1:
+					left();
+					break;
+				case 2:
+					right();
+					break;
+				case 3:
+					infect();
+					break;
+				case 4:
+					if_empty(n);
+					break;
+				case 5:
+					if_wall(n);
+					break;
+				case 6:
+					if_random(n);
+					break;
+				case 7:
+					if_enemy(n);
+					break;
+				case 8:
+					go(n);
+					break;
+			}
 		}
 	}
 
@@ -79,6 +85,7 @@ public:
 				break;
 		}
 		moved = true;
+		//update board (put in Darwin)
 	}
 
 	void left(){
@@ -92,34 +99,44 @@ public:
 	}
 
 	void infect(){
-		bool infect = Darwin.infect(this);
+		bool infect = Darwin::infect(this);
 	}
 
 	void if_empty(int n){
-		bool empty = Darwin.if_empty(this);
+		bool empty = Darwin->is_empty(row, col, dir);
+		if(empty)
+			pc = n;
+		else
+			++pc;
+		readInstruction();
 	}
 
 	void if_wall(int n){
-		switch(dir){
-			case 0:
-				if(row > 0)
-					pc = n;
-				break;
-			case 1:
-				if(col < max_col-1)
-					pc = n;
-				break;
-			case 2:
-				if(row < max_row-1)
-					pc = n;
-				break;
-			case 3:
-				if(col > 0 )
-					pc = n;
-				break;
-			default:
-				++pc;
-		}
+		bool wall = Darwin::is_wall(this);
+		if(wall)
+			pc = n;
+		else
+			++pc;
+		// switch(dir){
+		// 	case 0:
+		// 		if(row > 0)
+		// 			pc = n;
+		// 		break;
+		// 	case 1:
+		// 		if(col < max_col-1)
+		// 			pc = n;
+		// 		break;
+		// 	case 2:
+		// 		if(row < max_row-1)
+		// 			pc = n;
+		// 		break;
+		// 	case 3:
+		// 		if(col > 0 )
+		// 			pc = n;
+		// 		break;
+		// 	default:
+		// 		++pc;
+		// }
 		readInstruction();
 	}
 
@@ -133,11 +150,16 @@ public:
 	}
 
 	void if_enemy(int n){
-		bool enemy = Darwin.if_enemy(this);
+		bool enemy = Darwin::is_enemy(this);
+		if(enemy)
+			pc = n;
+		else
+			++pc;
+		readInstruction();
 	}
 
 	void go(int n){
 		pc = n;
 		readInstruction();
 	}
-}
+};
