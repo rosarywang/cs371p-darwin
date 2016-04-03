@@ -34,16 +34,16 @@ Darwin.log:
 Doxyfile:
 	doxygen -g
 
-RunDarwin: Darwin.h Darwin.c++ RunDarwin.c++
-	$(CXX) $(CXXFLAGS) $(GPROFFLAGS) Darwin.c++ RunDarwin.c++ -o RunDarwin
+RunDarwin: Darwin.h Creature.h Darwin.c++ Creature.c++ RunDarwin.c++
+	$(CXX) $(CXXFLAGS) $(GPROFFLAGS) Darwin.c++ Creature.c++ RunDarwin.c++ -o RunDarwin
 
 RunDarwin.tmp: RunDarwin
 	./RunDarwin < RunDarwin.in > RunDarwin.tmp
 	diff RunDarwin.tmp RunDarwin.out
 	$(GPROF) ./RunDarwin
 
-TestDarwin: Darwin.h Darwin.c++ TestDarwin.c++
-	$(CXX) $(CXXFLAGS) $(GCOVFLAGS) Darwin.c++ TestDarwin.c++ -o TestDarwin $(LDFLAGS)
+TestDarwin: Darwin.h Creature.h Darwin.c++ Creature.c++ TestDarwin.c++
+	$(CXX) $(CXXFLAGS) $(GCOVFLAGS) Darwin.c++ Creature.c++ TestDarwin.c++ -o TestDarwin $(LDFLAGS)
 
 TestDarwin.tmp: TestDarwin
 	$(VALGRIND) ./TestDarwin                                      >  TestDarwin.tmp 2>&1
