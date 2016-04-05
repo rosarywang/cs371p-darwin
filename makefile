@@ -8,7 +8,6 @@ FILES :=                            \
     Darwin.log                      \
     html                            \
     RunDarwin.c++                   \
-    RunDarwin.in                    \
     RunDarwin.out                   \
     TestDarwin.c++                  \
     TestDarwin.out
