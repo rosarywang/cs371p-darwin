@@ -22,6 +22,8 @@ private:
 public:
 	Creature(Species, int, int, int, int, int);
 
+	bool checkSameSpecies(Creature);
+
 	void readInstruction(Darwin&);
 
 	void hop();
@@ -42,11 +44,11 @@ public:
 
 	void go(Darwin&, int);
 
-	bool is_wall(Darwin&, int, int, int);
+	bool is_wall(Darwin&);
 
-	bool is_empty(Darwin&, int, int, int);
+	bool is_empty(Darwin&);
 
-	bool is_enemy(Darwin&, int, int, int);
+	bool is_enemy(Darwin&);
 };
 
 #endif

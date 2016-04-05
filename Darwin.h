@@ -17,7 +17,7 @@ class Darwin {
 	public:
 		Darwin(int, int);
 
-		void addCreature(Creature*, int, int);
+		void addCreature(Creature&, int, int);
 
 		// Creature infect(Creature);
 };

@@ -7,8 +7,9 @@ using namespace std;
 		this->cols = cols;
 	}
 
-	void Darwin::addCreature(Creature* c, int row, int col){
-		//board[row][col] = c;
+	void Darwin::addCreature(Creature& c, int row, int col){
+		creatures.push_back(c);
+		board[row][col] = creatures.size()-1;
 	}
 
 	// Creature Darwin::infect(Creature c){
