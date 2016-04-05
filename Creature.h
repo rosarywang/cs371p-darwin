@@ -22,6 +22,8 @@ private:
 public:
 	Creature(Species, int, int, int, int, int);
 
+	bool checkSameSpecies(Creature);
+
 	void readInstruction(Darwin*);
 
 	void hop();

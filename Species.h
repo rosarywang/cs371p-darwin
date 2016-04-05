@@ -14,8 +14,8 @@ public:
 		initial = c;
 	}
 
-	bool operator != (Species s) {
-		return initial != s.initial;
+	bool operator == (Species s) {
+		return initial == s.initial;
 	}
 
 	int operator [] (int pc) {

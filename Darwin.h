@@ -2,9 +2,10 @@
 #ifndef Darwin_h
 #define Darwin_h
 
+#include <vector>
 #include "Creature.h"
 
-//using namespace std;
+using namespace std;
 
 class Creature;
 
@@ -12,7 +13,8 @@ class Darwin {
 	private:
 		int rows;
 		int cols;
-		//Creature board[rows][cols] = {};
+		vector<Creature> creatures;
+		vector<vector<int>> board;
 		
 	public:
 		Darwin(int, int);
@@ -25,7 +27,7 @@ class Darwin {
 		
 		bool is_empty(int, int, int);
 
-		bool is_enemy(int, int, int);
+		bool is_enemy(Creature*, int, int, int);
 };
 
 #endif

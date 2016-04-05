@@ -1,8 +1,8 @@
 FILES :=                            \
-    darwin-tests/EID-RunDarwin.in   \
-    darwin-tests/EID-RunDarwin.out  \
-    darwin-tests/EID-TestDarwin.c++ \
-    darwin-tests/EID-TestDarwin.out \
+    darwin-tests/ryw86-RunDarwin.in   \
+    darwin-tests/ryw86-RunDarwin.out  \
+    darwin-tests/ryw86-TestDarwin.c++ \
+    darwin-tests/ryw86-TestDarwin.out \
     Darwin.c++                      \
     Darwin.h                        \
     Darwin.log                      \
@@ -38,7 +38,7 @@ RunDarwin: Darwin.h Creature.h Darwin.c++ Creature.c++ RunDarwin.c++
 	$(CXX) $(CXXFLAGS) $(GPROFFLAGS) Darwin.c++ Creature.c++ RunDarwin.c++ -o RunDarwin
 
 RunDarwin.tmp: RunDarwin
-	./RunDarwin < RunDarwin.in > RunDarwin.tmp
+	./RunDarwin > RunDarwin.tmp
 	diff RunDarwin.tmp RunDarwin.out
 	$(GPROF) ./RunDarwin
 

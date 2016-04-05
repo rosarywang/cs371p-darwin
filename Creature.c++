@@ -13,6 +13,11 @@
 
 	// int operator [][] 
 
+
+	bool Creature::checkSameSpecies(Creature c){
+		return this->sp == c.sp;
+	}
+
 	//instructions function
 	void Creature::readInstruction(Darwin* darwin){
 		if(!moved) {
@@ -134,7 +139,7 @@
 	}
 
 	void Creature::if_enemy(Darwin* darwin, int n){
-		bool enemy = darwin->is_enemy(row, col, dir);
+		bool enemy = darwin->is_enemy(this, row, col, dir);
 		if(enemy)
 			pc = n;
 		else
