@@ -14,7 +14,7 @@
 	// int operator [][] 
 
 	//instructions function
-	void Creature::readInstruction(Darwin* darwin){
+	void Creature::readInstruction(Darwin& board){
 		if(!moved) {
 			int n = sp[pc]/10;
 			switch(sp[pc]%10){
@@ -31,19 +31,19 @@
 					infect();
 					break;
 				case 4:
-					if_empty(darwin, n);
+					if_empty(board, n);
 					break;
 				case 5:
-					if_wall(darwin, n);
+					if_wall(board, n);
 					break;
 				case 6:
-					if_random(darwin, n);
+					if_random(board, n);
 					break;
 				case 7:
-					if_enemy(darwin, n);
+					if_enemy(board, n);
 					break;
 				case 8:
-					go(darwin, n);
+					go(board, n);
 					break;
 			}
 		}
@@ -69,7 +69,6 @@
 				break;
 		}
 		moved = true;
-		//update board (put in Darwin)
 	}
 
 	void Creature::left(){
@@ -86,63 +85,107 @@
 	// 	bool infect = Darwin::infect(this);
 	}
 
-	void Creature::if_empty(Darwin* darwin, int n){
-		bool empty = darwin->is_empty(row, col, dir);
+	void Creature::if_empty(Darwin& board, int n){
+		bool empty = is_empty(board, row, col, dir);
 		if(empty)
 			pc = n;
 		else
 			++pc;
-		readInstruction(darwin);
+		readInstruction(board);
 	}
 
-	void Creature::if_wall(Darwin* darwin, int n){
-		bool wall = darwin->is_wall(row, col, dir);
+	void Creature::if_wall(Darwin& board, int n){
+		bool wall = is_wall(board, row, col, dir);
 		if(wall)
 			pc = n;
 		else
 			++pc;
-		// switch(dir){
-		// 	case 0:
-		// 		if(row > 0)
-		// 			pc = n;
-		// 		break;
-		// 	case 1:
-		// 		if(col < max_col-1)
-		// 			pc = n;
-		// 		break;
-		// 	case 2:
-		// 		if(row < max_row-1)
-		// 			pc = n;
-		// 		break;
-		// 	case 3:
-		// 		if(col > 0 )
-		// 			pc = n;
-		// 		break;
-		// 	default:
-		// 		++pc;
-		// }
-		readInstruction(darwin);
+		readInstruction(board);
 	}
 
-	void Creature::if_random(Darwin* darwin, int n){
+	void Creature::if_random(Darwin& board, int n){
 		int r = rand();
 		if(r % 2 == 0)
 			++pc;
 		else
 			pc = n;
-		readInstruction(darwin);
+		readInstruction(board);
 	}
 
-	void Creature::if_enemy(Darwin* darwin, int n){
-		bool enemy = darwin->is_enemy(row, col, dir);
+	void Creature::if_enemy(Darwin& board, int n){
+		bool enemy = is_enemy(board, row, col, dir);
 		if(enemy)
 			pc = n;
 		else
 			++pc;
-		readInstruction(darwin);
+		readInstruction(board);
 	}
 
-	void Creature::go(Darwin* darwin, int n){
+	void Creature::go(Darwin& board, int n){
 		pc = n;
-		readInstruction(darwin);
+		readInstruction(board);
+	}
+
+	bool Creature::is_wall(Darwin& board, int r, int c, int d) {
+		// switch(d){
+		// 	case 0:
+		// 		if(r > 0)
+		// 			return false;
+		// 	case 1:
+		// 		if(c < cols-1)
+		// 			return false;
+		// 	case 2:
+		// 		if(r < rows-1)
+		// 			return false;
+		// 	case 3:
+		// 		if(c > 0 )
+		// 			return false;
+		// 	default:
+		// 			return true;
+		// }
+		return true;
+	}
+ 
+	bool Creature::is_empty(Darwin& board, int r, int c, int d) {
+		// if(!is_wall(board, r, c, d)) {
+		// 	switch(d) {
+		// 		case 0: 
+		// 			if((r > 0) && (board[r-1][c] < 0))
+		// 				return true;
+		// 		case 1: 
+		// 			if((c < col-1) && (board[r][c+1] < 0))
+		// 				return true;
+		// 		case 2: 
+		// 			if((r < row-1) && (board[r+1][c] < 0))
+		// 				return true;
+		// 		case 3: 
+		// 			if((c > 0) && (board[r][c-1] < 0))
+		// 				return true;
+		// 		default:
+		// 			return false;
+		// 	}
+		// }
+		return false;
+	}
+
+	bool Creature::is_enemy(Darwin& board, int r, int c, int d) {
+		// if(!is_empty(board, r, c, d)) {
+		// 	switch(d) {
+		// 		case 0: 
+		// 			if(board[r-1][c].s != c.s)
+		// 				return true;
+		// 		case 1: 
+		// 			if(board[r][c+1].s != c.s)
+		// 				return true;
+		// 		case 2: 
+		// 			if(board[r+1][c].s != c.s)
+		// 				return true;
+		// 		case 3: 
+		// 			if(board[r][c-1].s != c.s)
+		// 				return true;
+		// 		default:
+		// 			return false;
+		// 	}
+		// }
+		return false;
 	}

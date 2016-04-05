@@ -20,12 +20,6 @@ class Darwin {
 		void addCreature(Creature*, int, int);
 
 		// Creature infect(Creature);
-
-		bool is_wall(int, int, int);
-		
-		bool is_empty(int, int, int);
-
-		bool is_enemy(int, int, int);
 };
 
 #endif

@@ -22,7 +22,7 @@ private:
 public:
 	Creature(Species, int, int, int, int, int);
 
-	void readInstruction(Darwin*);
+	void readInstruction(Darwin&);
 
 	void hop();
 
@@ -32,15 +32,21 @@ public:
 
 	void infect();
 
-	void if_empty(Darwin*, int);
+	void if_empty(Darwin&, int);
 
-	void if_wall(Darwin*, int);
+	void if_wall(Darwin&, int);
 
-	void if_random(Darwin*, int);
+	void if_random(Darwin&, int);
 
-	void if_enemy(Darwin*, int);
+	void if_enemy(Darwin&, int);
 
-	void go(Darwin*, int);
+	void go(Darwin&, int);
+
+	bool is_wall(Darwin&, int, int, int);
+
+	bool is_empty(Darwin&, int, int, int);
+
+	bool is_enemy(Darwin&, int, int, int);
 };
 
 #endif
