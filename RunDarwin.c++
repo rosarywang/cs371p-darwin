@@ -12,6 +12,7 @@
 #include <cstdlib>   // rand, srand
 #include <iostream>  // cout, endl
 #include <stdexcept> // invalid_argument, out_of_range
+#include "Darwin.h"
 
 // ----
 // main
@@ -73,6 +74,38 @@ int main () {
     // ----------
 
     cout << "*** Darwin 8x8 ***" << endl;
+    Species food = Species('f');
+    food.addInstruction(1, 0);
+    food.addInstruction(8, 0);
+
+    Species hopper = Species('h');
+    hopper.addInstruction(0, 0);
+    hopper.addInstruction(8, 0);
+
+    Creature f1 = Creature(food, 0, 0, 1, 8, 8, 0);
+    Creature h1 = Creature(hopper, 3, 3, 0, 8, 8, 1);
+    Creature h2 = Creature(hopper, 3, 4, 1, 8, 8, 2);
+    Creature h3 = Creature(hopper, 4, 4, 2, 8, 8, 3);
+    Creature h4 = Creature(hopper, 4, 3, 3, 8, 8, 4);
+    Creature f2 = Creature(food, 7, 7, 0, 8, 8, 5);
+
+    Darwin darwin = Darwin(8, 8);
+    darwin.add_creature(f1, 0, 0);
+    darwin.add_creature(h1, 3, 3);
+    darwin.add_creature(h2, 3, 4);
+    darwin.add_creature(h3, 4, 4);
+    darwin.add_creature(h4, 4, 3);
+    darwin.add_creature(f2, 7, 7);
+
+    int rounds = 5;
+    int turn = 0;
+
+    while(turn < rounds) {
+        darwin.print_board(turn);
+        darwin.play();
+        ++turn;
+    }
+
     /*
     8x8 Darwin
     Food,   facing east,  at (0, 0)

@@ -20,19 +20,27 @@ private:
 	int max_col;
 
 public:
-	Creature(Species, int, int, int, int, int);
+	Creature();
+
+	Creature(Species, int, int, int, int, int, int);
+
+	int index;
+
+	void reset_moved();
+
+	char get_species();
 
 	bool checkSameSpecies(Creature);
 
 	void readInstruction(Darwin*);
 
-	void hop();
+	void hop(Darwin*);
 
-	void left();
+	void left(Darwin*);
 
-	void right();
+	void right(Darwin*);
 
-	void infect();
+	void infect(Darwin*);
 
 	void if_empty(Darwin*, int);
 

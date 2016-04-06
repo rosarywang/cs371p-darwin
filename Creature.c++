@@ -1,6 +1,11 @@
 #include "Creature.h"
 
-	Creature::Creature(Species sp, int row, int col, int dir, int max_row, int max_col){
+	Creature::Creature() {
+		this->moved = true;
+		this->max_col = -1;
+	}
+
+	Creature::Creature(Species sp, int row, int col, int dir, int max_row, int max_col, int index){
 		this->sp = sp;
 		this->row = row;
 		this->col = col;
@@ -9,31 +14,38 @@
 		this->moved = false;
 		this->max_row = max_row;
 		this->max_col = max_col;
+		this->index = index;
 	}
 
-	// int operator [][] 
-
+	char Creature::get_species() {
+		return this->sp.initial;
+	}
 
 	bool Creature::checkSameSpecies(Creature c){
 		return this->sp == c.sp;
 	}
 
+	void Creature::reset_moved() {
+		if(this->max_col > 0)
+			this->moved = false;
+	}
+
 	//instructions function
 	void Creature::readInstruction(Darwin* darwin){
 		if(!moved) {
-			int n = sp[pc]/10;
+			int n = sp[pc]/10;			
 			switch(sp[pc]%10){
 				case 0:
-					hop();
+					hop(darwin);
 					break;
 				case 1:
-					left();
+					left(darwin);
 					break;
 				case 2:
-					right();
+					right(darwin);
 					break;
 				case 3:
-					infect();
+					infect(darwin);
 					break;
 				case 4:
 					if_empty(darwin, n);
@@ -52,42 +64,55 @@
 					break;
 			}
 		}
+		else
+			darwin->update_board(*this, row, col, row, col);
 	}
 
-	void Creature::hop(){
-		switch(dir){
-			case 0:
-				if(row > 0)
-					--row;
-				break;
-			case 1:
-				if(col < max_col-1)
-					++col;
-				break;
-			case 2:
-				if(row < max_row-1)
-					++row;
-				break;
-			case 3:
-				if(col > 0 )
-					--col;
-				break;
+	void Creature::hop(Darwin* darwin){
+		int oldR = row;
+		int oldC = col;
+		if(darwin->is_empty(row, col, dir)) {
+			switch(dir){
+				case 0:
+					if(row > 0)
+						--row;
+					break;
+				case 1:
+					if(col < max_col-1)
+						++col;
+					break;
+				case 2:
+					if(row < max_row-1)
+						++row;
+					break;
+				case 3:
+					if(col > 0 )
+						--col;
+					break;
+			}
 		}
 		moved = true;
+		++pc;
+		darwin->update_board(*this, oldR, oldC, row, col);
 		//update board (put in Darwin)
 	}
 
-	void Creature::left(){
+	void Creature::left(Darwin* darwin){
 		dir = (dir+3)%4;
 		moved = true;
+		++pc;
+		darwin->update_board(*this, row, col, row, col);
 	}
 
-	void Creature::right(){
+	void Creature::right(Darwin* darwin){
 		dir = (dir+1)%4;
 		moved = true;
+		++pc;
+		darwin->update_board(*this, row, col, row, col);
 	}
 
-	void Creature::infect(){
+	void Creature::infect(Darwin* darwin){
+	// darwin->update_board(*this, oldR, oldC, row, col);
 	// 	bool infect = Darwin::infect(this);
 	}
 

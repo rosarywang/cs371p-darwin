@@ -2,7 +2,6 @@ using namespace std;
 
 class Species {
 private:
-	char initial;
 	int instructions[15];
 	int index;
 
@@ -13,6 +12,8 @@ public:
 		index = 0;
 		initial = c;
 	}
+
+	char initial;
 
 	bool operator == (Species s) {
 		return initial == s.initial;
@@ -39,5 +40,6 @@ public:
 		} else {
 			instructions[index] = instruction;
 		}
+		++index;
 	}
 };
