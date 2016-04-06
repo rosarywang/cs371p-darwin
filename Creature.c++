@@ -111,7 +111,7 @@
 	}
 
 	void Creature::infect(Darwin* darwin){
-		Creature& e = darwin->get_enemy(*this, this->row, this->col, this->col);
+		Creature& e = darwin->get_enemy(*this, this->row, this->col, this->dir);
 		e.sp = Species(this->sp);
 		e.pc = 0;
 		this->moved = true;

@@ -53,24 +53,24 @@ using namespace std;
 		if(!is_wall(r, c, d)) {
 			switch(d) {
 				case 0: 
-					if(this->board[r-1][c] == -1)
-						return true;
+					if(this->board[r-1][c] != -1)
+						return false;
 				case 1: 
-					if(this->board[r][c+1] == -1)
-						return true;
+					if(this->board[r][c+1] != -1)
+						return false;
 				case 2: 
-					if(this->board[r+1][c] == -1)
-						return true;
+					if(this->board[r+1][c] != -1)
+						return false;
 				case 3: 
-					if(this->board[r][c-1] == -1)
-						return true;
+					if(this->board[r][c-1] != -1)
+						return false;
 			}
 		}
-		return false;
+		return true;
 	}
 
 	bool Darwin::is_enemy(Creature& creature, int r, int c, int d){
-		if(!is_wall(r, c, d)) {
+		if(!is_empty(r, c, d)&&!is_wall(r, c, d)) {
 			switch(d) {
 				case 0: 
 					return !creature.check_same_species(this->creatures[this->board[r-1][c]]);
@@ -102,7 +102,7 @@ using namespace std;
 	void Darwin::update_board(Creature& creature, int oldR, int oldC, int newR, int newC) {
 		board[oldR][oldC] = -1;
 		board[newR][newC] = creature.get_index();
-		creatures[creature.get_index()] = creature;
+		//creatures[creature.get_index()] = creature;
 	}
 
 	void Darwin::play() {
