@@ -19,6 +19,8 @@ class Darwin {
 		vector<vector<int>> board;
 		
 	public:
+		Darwin();
+
 		Darwin(int, int);
 
 		void add_creature(Creature&, int, int);
@@ -35,7 +37,7 @@ class Darwin {
 		
 		bool is_empty(int, int, int);
 
-		bool is_enemy(Creature*, int, int, int);
+		bool is_enemy(Creature&, int, int, int);
 
 		void update_board(Creature&, int, int, int, int);
 

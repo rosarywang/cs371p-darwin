@@ -18,27 +18,28 @@ private:
 	int dir;
 	int max_row;
 	int max_col;
+	int index;
 
 public:
 	Creature();
 
 	Creature(Species, int, int, int, int, int, int);
 
-	int index;
-
-	void reset_moved();
+	int get_index();
 
 	char get_species();
 
 	bool checkSameSpecies(Creature);
 
+	void reset_moved();
+
 	void readInstruction(Darwin*);
 
 	void hop(Darwin*);
 
-	void left(Darwin*);
+	void left();
 
-	void right(Darwin*);
+	void right();
 
 	void infect(Darwin*);
 

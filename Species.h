@@ -4,6 +4,7 @@ class Species {
 private:
 	int instructions[15];
 	int index;
+	char initial;
 
 public:
 	Species() {}
@@ -13,14 +14,16 @@ public:
 		initial = c;
 	}
 
-	char initial;
-
 	bool operator == (Species s) {
-		return initial == s.initial;
+		return this->initial == s.initial;
 	}
 
 	int operator [] (int pc) {
-		return instructions[pc];
+		return this->instructions[pc];
+	}
+
+	char get_initial(){
+		return this->initial;
 	}
 
 	void addInstruction(int instruction, int n){
@@ -36,10 +39,10 @@ public:
 		//go 8
 
 		if (instruction > 3) {
-			instructions[index] = instruction+n*10;
+			this->instructions[index] = instruction+n*10;
 		} else {
-			instructions[index] = instruction;
+			this->instructions[index] = instruction;
 		}
-		++index;
+		++this->index;
 	}
 };

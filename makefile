@@ -73,6 +73,7 @@ clean:
 	rm -f *.gcda
 	rm -f *.gcno
 	rm -f *.gcov
+	rm -f gmon.out
 	rm -f RunDarwin
 	rm -f RunDarwin.tmp
 	rm -f TestDarwin

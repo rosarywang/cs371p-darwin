@@ -2,7 +2,7 @@
 
 	Creature::Creature() {
 		this->moved = true;
-		this->max_col = -1;
+		this->index = -1;
 	}
 
 	Creature::Creature(Species sp, int row, int col, int dir, int max_row, int max_col, int index){
@@ -17,8 +17,12 @@
 		this->index = index;
 	}
 
+	int Creature::get_index() {
+		return this->index;
+	}
+
 	char Creature::get_species() {
-		return this->sp.initial;
+		return this->sp.get_initial();
 	}
 
 	bool Creature::checkSameSpecies(Creature c){
@@ -26,23 +30,23 @@
 	}
 
 	void Creature::reset_moved() {
-		if(this->max_col > 0)
+		if(this->index >= 0)
 			this->moved = false;
 	}
 
 	//instructions function
 	void Creature::readInstruction(Darwin* darwin){
-		if(!moved) {
-			int n = sp[pc]/10;			
-			switch(sp[pc]%10){
+		if(!this->moved) {
+			int n = this->sp[this->pc]/10;			
+			switch(this->sp[this->pc]%10){
 				case 0:
 					hop(darwin);
 					break;
 				case 1:
-					left(darwin);
+					left();
 					break;
 				case 2:
-					right(darwin);
+					right();
 					break;
 				case 3:
 					infect(darwin);
@@ -64,115 +68,93 @@
 					break;
 			}
 		}
-		else
-			darwin->update_board(*this, row, col, row, col);
 	}
 
 	void Creature::hop(Darwin* darwin){
-		int oldR = row;
-		int oldC = col;
-		if(darwin->is_empty(row, col, dir)) {
-			switch(dir){
+		int oldR = this->row;
+		int oldC = this->col;
+		if(darwin->is_empty(this->row, this->col, this->dir)) {
+			switch(this->dir){
 				case 0:
-					if(row > 0)
-						--row;
+					if(this->row > 0)
+						--this->row;
 					break;
 				case 1:
-					if(col < max_col-1)
-						++col;
+					if(this->col < this->max_col-1)
+						++this->col;
 					break;
 				case 2:
-					if(row < max_row-1)
+					if(this->row < this->max_row-1)
 						++row;
 					break;
 				case 3:
-					if(col > 0 )
-						--col;
+					if(this->col > 0 )
+						--this->col;
 					break;
 			}
 		}
-		moved = true;
-		++pc;
-		darwin->update_board(*this, oldR, oldC, row, col);
+		this->moved = true;
+		++this->pc;
+		darwin->update_board(*this, oldR, oldC, this->row, this->col);
 		//update board (put in Darwin)
 	}
 
-	void Creature::left(Darwin* darwin){
-		dir = (dir+3)%4;
-		moved = true;
-		++pc;
-		darwin->update_board(*this, row, col, row, col);
+	void Creature::left(){
+		this->dir = (this->dir+3)%4;
+		this->moved = true;
+		++this->pc;
+		//darwin.update_board(*this, row, col, row, col);
 	}
 
-	void Creature::right(Darwin* darwin){
-		dir = (dir+1)%4;
-		moved = true;
-		++pc;
-		darwin->update_board(*this, row, col, row, col);
+	void Creature::right(){
+		this->dir = (this->dir+1)%4;
+		this->moved = true;
+		++this->pc;
+		//darwin.update_board(*this, row, col, row, col);
 	}
 
 	void Creature::infect(Darwin* darwin){
-	// darwin->update_board(*this, oldR, oldC, row, col);
+	// darwin.update_board(*this, oldR, oldC, row, col);
 	// 	bool infect = Darwin::infect(this);
 	}
 
 	void Creature::if_empty(Darwin* darwin, int n){
-		bool empty = darwin->is_empty(row, col, dir);
+		bool empty = darwin->is_empty(this->row, this->col, this->dir);
 		if(empty)
-			pc = n;
+			this->pc = n;
 		else
-			++pc;
+			++this->pc;
 		readInstruction(darwin);
 	}
 
 	void Creature::if_wall(Darwin* darwin, int n){
-		bool wall = darwin->is_wall(row, col, dir);
+		bool wall = darwin->is_wall(this->row, this->col, this->dir);
 		if(wall)
-			pc = n;
+			this->pc = n;
 		else
-			++pc;
-		// switch(dir){
-		// 	case 0:
-		// 		if(row > 0)
-		// 			pc = n;
-		// 		break;
-		// 	case 1:
-		// 		if(col < max_col-1)
-		// 			pc = n;
-		// 		break;
-		// 	case 2:
-		// 		if(row < max_row-1)
-		// 			pc = n;
-		// 		break;
-		// 	case 3:
-		// 		if(col > 0 )
-		// 			pc = n;
-		// 		break;
-		// 	default:
-		// 		++pc;
-		// }
+			++this->pc;
 		readInstruction(darwin);
 	}
 
 	void Creature::if_random(Darwin* darwin, int n){
 		int r = rand();
 		if(r % 2 == 0)
-			++pc;
+			++this->pc;
 		else
-			pc = n;
+			this->pc = n;
 		readInstruction(darwin);
 	}
 
 	void Creature::if_enemy(Darwin* darwin, int n){
-		bool enemy = darwin->is_enemy(this, row, col, dir);
+		bool enemy = darwin->is_enemy(*this, this->row, this->col, this->dir);
 		if(enemy)
-			pc = n;
+			this->pc = n;
 		else
-			++pc;
+			++this->pc;
 		readInstruction(darwin);
 	}
 
 	void Creature::go(Darwin* darwin, int n){
-		pc = n;
+		this->pc = n;
 		readInstruction(darwin);
 	}
