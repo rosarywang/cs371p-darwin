@@ -9,7 +9,7 @@ using namespace std;
 		this->rows = rows;
 		this->cols = cols;
 		this->creatures.resize(rows*cols);
-		this->board.resize(cols, vector<int>(rows , -1));
+		this->board.resize(rows, vector<int>(cols , -1));
 	}
 
 	void Darwin::add_creature(Creature& c, int row, int col){
@@ -36,21 +36,21 @@ using namespace std;
 	bool Darwin::is_wall(int r, int c, int d) {
 		switch(d){
 			case 0:
-				if(r > 0)
-					return false;
-			case 1:
-				if(c < this->cols-1)
-					return false;
-			case 2:
-				if(r < this->rows-1)
-					return false;
-			case 3:
-				if(c > 0)
-					return false;
-			default:
+				if(r == 0)
 					return true;
+			case 1:
+				if(c == this->cols-1)
+					return true;
+			case 2:
+				if(r == this->rows-1)
+					return true;
+			case 3:
+				if(c == 0)
+					return true;
+			default:
+					return false;
 		}
-		return true;
+		return false;
 	}
 
 	bool Darwin::is_empty(int r, int c, int d){

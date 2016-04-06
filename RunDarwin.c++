@@ -73,6 +73,18 @@ int main () {
     // darwin 8x8
     // ----------
 
+    /*
+    8x8 Darwin
+    Food,   facing east,  at (0, 0)
+    Hopper, facing north, at (3, 3)
+    Hopper, facing east,  at (3, 4)
+    Hopper, facing south, at (4, 4)
+    Hopper, facing west,  at (4, 3)
+    Food,   facing north, at (7, 7)
+    Simulate 5 moves.
+    Print every grid.
+    */
+
     cout << "*** Darwin 8x8 ***" << endl;
     Species food = Species('f');
     food.addInstruction(1, 0);
@@ -100,23 +112,11 @@ int main () {
     int rounds = 5;
     int turn = 0;
 
-    while(turn < rounds) {
+    while(turn <= rounds) {
         darwin.print_board(turn);
         darwin.play();
         ++turn;
     }
-
-    /*
-    8x8 Darwin
-    Food,   facing east,  at (0, 0)
-    Hopper, facing north, at (3, 3)
-    Hopper, facing east,  at (3, 4)
-    Hopper, facing south, at (4, 4)
-    Hopper, facing west,  at (4, 3)
-    Food,   facing north, at (7, 7)
-    Simulate 5 moves.
-    Print every grid.
-    */
 
     // ----------
     // darwin 7x9
