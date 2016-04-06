@@ -36,16 +36,16 @@ using namespace std;
 	bool Darwin::is_wall(int r, int c, int d) {
 		switch(d){
 			case 0:
-				if(c > 0)
+				if(r > 0)
 					return false;
 			case 1:
-				if(r < this->rows-1)
-					return false;
-			case 2:
 				if(c < this->cols-1)
 					return false;
+			case 2:
+				if(r < this->rows-1)
+					return false;
 			case 3:
-				if(r > 0)
+				if(c > 0)
 					return false;
 			default:
 					return true;
