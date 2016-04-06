@@ -34,15 +34,19 @@ using namespace std;
 			case 0:
 				if(r == 0)
 					return true;
+				break;
 			case 1:
 				if(c == this->cols-1)
 					return true;
+				break;
 			case 2:
 				if(r == this->rows-1)
 					return true;
+				break;
 			case 3:
 				if(c == 0)
 					return true;
+				break;
 			default:
 					return false;
 		}
@@ -55,15 +59,19 @@ using namespace std;
 				case 0: 
 					if(this->board[r-1][c] != -1)
 						return false;
+					break;
 				case 1: 
 					if(this->board[r][c+1] != -1)
 						return false;
+					break;
 				case 2: 
 					if(this->board[r+1][c] != -1)
 						return false;
+					break;
 				case 3: 
 					if(this->board[r][c-1] != -1)
 						return false;
+					break;
 			}
 		}
 		return true;
@@ -106,10 +114,13 @@ using namespace std;
 	}
 
 	void Darwin::play() {
-		for (int i = 0; i < this->rows; ++i)
-			for (int j = 0; j < this->cols; ++j)
-				if(this->board[i][j] != -1) 
+		for (int i = 0; i < this->rows; ++i) {
+			for (int j = 0; j < this->cols; ++j) {
+				if(this->board[i][j] != -1) {
 					this->creatures[this->board[i][j]].read_instruction(this);
+				}
+			}
+		}
 	}
 
 	void Darwin::print_board(int turn) {
