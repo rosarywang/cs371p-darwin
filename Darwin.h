@@ -6,6 +6,7 @@
 #include <iterator>
 #include "Creature.h"
 #include <iostream>
+#include "gtest/gtest.h"
 
 using namespace std;
 
@@ -13,7 +14,8 @@ class Creature;
 
 class Darwin {
 	private:
-		// FRIEND_TEST(Darwin, add_creature_1);
+		friend class DarwinTest;
+		FRIEND_TEST(DarwinTest, add_creature_1);
 		int rows;
 		int cols;
 		vector<Creature> creatures;

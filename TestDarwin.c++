@@ -272,20 +272,20 @@ TEST(DarwinCreature, check_same_species_3) {
 // add_creature
 // ------------
 
-// TEST(Darwin, add_creature_1) {
-//     Species food = Species('f');
-//     food.add_instruction(1, 0);
-//     food.add_instruction(8, 0);
+TEST(DarwinTest, add_creature_1) {
+    Species food = Species('f');
+    food.add_instruction(1, 0);
+    food.add_instruction(8, 0);
 
-//     Creature f1 = Creature(food, 0, 0, 1, 8, 8, 0);
-//     Creature f2 = Creature(food, 7, 7, 0, 8, 8, 1);
+    Creature f1 = Creature(food, 0, 0, 1, 8, 8, 0);
+    Creature f2 = Creature(food, 7, 7, 0, 8, 8, 1);
 
-//     Darwin darwin = Darwin(8, 8);
-//     darwin.add_creature(f1, 0, 0);
-//     darwin.add_creature(f2, 7, 7);
-//     ASSERT_EQ(darwin.board[0][0] , 0);
-//     ASSERT_EQ(darwin.board[7][7] , 1);
-// }
+    Darwin darwin = Darwin(8, 8);
+    darwin.add_creature(f1, 0, 0);
+    darwin.add_creature(f2, 7, 7);
+    ASSERT_EQ(darwin.board[0][0] , 0);
+    ASSERT_EQ(darwin.board[7][7] , 1);
+}
 
 // -----
 // begin
