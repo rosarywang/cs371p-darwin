@@ -17,10 +17,6 @@ using namespace std;
 		this->board[row][col] = c.get_index();
 	}
 
-	// Creature Darwin::infect(Creature& c){
-	// 	return null;
-	// }
-
 	vector<vector<int>>::iterator Darwin::begin() {
 		return this->board.begin();
 	}
@@ -54,71 +50,66 @@ using namespace std;
 	}
 
 	bool Darwin::is_empty(int r, int c, int d){
-		// cout << r << " " << c << " " << d << endl;
-		// for (int i = 0; i < this->rows; ++i) {
-		// 	cout << i << " ";
-		// 	for (int j = 0; j < this->cols; ++j) {
-		// 		cout << this->board[i][j];
-		// 	}
-		// 	cout << endl;
-		// }
-		// cout << endl;
 		if(!is_wall(r, c, d)) {
 			switch(d) {
 				case 0: 
-
 					if(this->board[r-1][c] == -1)
 						return true;
 				case 1: 
-					if(this->board[r][c+1] < 0)
+					if(this->board[r][c+1] == -1)
 						return true;
 				case 2: 
-					if(this->board[r+1][c] < 0)
+					if(this->board[r+1][c] == -1)
 						return true;
 				case 3: 
-					if(this->board[r][c-1] < 0)
+					if(this->board[r][c-1] == -1)
 						return true;
-				default:
-					return false;
 			}
 		}
 		return false;
 	}
 
 	bool Darwin::is_enemy(Creature& creature, int r, int c, int d){
-		if(!is_empty(r, c, d)) {
+		if(!is_wall(r, c, d)) {
 			switch(d) {
 				case 0: 
-					if(creature.checkSameSpecies(this->creatures[this->board[r-1][c]]))
-						return true;
+					return !creature.check_same_species(this->creatures[this->board[r-1][c]]);
 				case 1: 
-					if(creature.checkSameSpecies(this->creatures[this->board[r][c+1]]))
-						return true;
+					return !creature.check_same_species(this->creatures[this->board[r][c+1]]);
 				case 2: 
-					if(creature.checkSameSpecies(this->creatures[this->board[r+1][c]]))
-						return true;
+					return !creature.check_same_species(this->creatures[this->board[r+1][c]]);
 				case 3: 
-					if(creature.checkSameSpecies(this->creatures[this->board[r][c-1]]))
-						return true;
-				default:
-					return false;
+					return !creature.check_same_species(this->creatures[this->board[r][c-1]]);
 			}
 		}
 		return false;
 	}
 
+	Creature& Darwin::get_enemy(Creature& creature, int r, int c, int d) {
+		switch(d) {
+			case 0: 
+				return this->creatures[this->board[r-1][c]];
+			case 1: 
+				return this->creatures[this->board[r][c+1]];
+			case 2: 
+				return this->creatures[this->board[r+1][c]];
+			case 3: 
+				return this->creatures[this->board[r][c-1]];
+		}
+		return creature;
+	}
+
 	void Darwin::update_board(Creature& creature, int oldR, int oldC, int newR, int newC) {
 		board[oldR][oldC] = -1;
 		board[newR][newC] = creature.get_index();
-		// this->creatures[creature*] = creature;
+		creatures[creature.get_index()] = creature;
 	}
 
 	void Darwin::play() {
-		for(int i = 0; i < (int)this->creatures.size(); ++i) {
-			this->creatures[i].readInstruction(this);
-		}
-		for(int i = 0; i < (int)this->creatures.size(); ++i) 
-			this->creatures[i].reset_moved();
+		for (int i = 0; i < this->rows; ++i)
+			for (int j = 0; j < this->cols; ++j)
+				if(this->board[i][j] != -1) 
+					this->creatures[this->board[i][j]].read_instruction(this);
 	}
 
 	void Darwin::print_board(int turn) {
@@ -136,6 +127,7 @@ using namespace std;
 					cout << ".";
 				else {
 					c = this->creatures[this->board[i][j]].get_species();
+					this->creatures[this->board[i][j]].reset_moved();
 					cout << c;
 				}
 			}

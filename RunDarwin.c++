@@ -87,12 +87,12 @@ int main () {
 
     cout << "*** Darwin 8x8 ***" << endl;
     Species food = Species('f');
-    food.addInstruction(1, 0);
-    food.addInstruction(8, 0);
+    food.add_instruction(1, 0);
+    food.add_instruction(8, 0);
 
     Species hopper = Species('h');
-    hopper.addInstruction(0, 0);
-    hopper.addInstruction(8, 0);
+    hopper.add_instruction(0, 0);
+    hopper.add_instruction(8, 0);
 
     Creature f1 = Creature(food, 0, 0, 1, 8, 8, 0);
     Creature h1 = Creature(hopper, 3, 3, 0, 8, 8, 1);
@@ -133,6 +133,47 @@ int main () {
     Simulate 5 moves.
     Print every grid.
     */
+
+    Species trap = Species('t');
+    trap.add_instruction(7, 3);
+    trap.add_instruction(1, 0);
+    trap.add_instruction(8, 0);
+    trap.add_instruction(3, 0);
+    trap.add_instruction(8, 0);
+
+    Species rover = Species('r');
+    rover.add_instruction(7, 9);
+    rover.add_instruction(4, 7);
+    rover.add_instruction(6, 5);
+    rover.add_instruction(1, 0);
+    rover.add_instruction(8, 0);
+    rover.add_instruction(2, 0);
+    rover.add_instruction(8, 0);
+    rover.add_instruction(0, 0);
+    rover.add_instruction(8, 0);
+    rover.add_instruction(3, 0);
+    rover.add_instruction(8, 0);
+
+    Creature t1 = Creature(trap, 0, 0, 2, 7, 9, 0);
+    Creature h5 = Creature(hopper, 3, 2, 1, 7, 9, 1);
+    Creature r1 = Creature(rover, 5, 4, 0, 7, 9, 2);
+    Creature t2 = Creature(trap, 6, 8, 3, 7, 9, 3);
+
+    darwin = Darwin(7, 9);
+    darwin.add_creature(t1, 0, 0);
+    darwin.add_creature(h5, 3, 2);
+    darwin.add_creature(r1, 5, 4);
+    darwin.add_creature(t2, 6, 8);
+
+    rounds = 5;
+    turn = 0;
+
+    while(turn <= rounds) {
+        darwin.print_board(turn);
+        darwin.play();
+        ++turn;
+    }
+
 
     // ------------
     // darwin 72x72

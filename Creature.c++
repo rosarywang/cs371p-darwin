@@ -25,17 +25,17 @@
 		return this->sp.get_initial();
 	}
 
-	bool Creature::checkSameSpecies(Creature c){
-		return this->sp == c.sp;
+	bool Creature::check_same_species(Creature c){
+		return this->get_species() == c.get_species();
 	}
 
 	void Creature::reset_moved() {
-		if(this->index >= 0)
+		if(this->index > -1)
 			this->moved = false;
 	}
 
 	//instructions function
-	void Creature::readInstruction(Darwin* darwin){
+	void Creature::read_instruction(Darwin* darwin){
 		if(!this->moved) {
 			int n = this->sp[this->pc]/10;			
 			switch(this->sp[this->pc]%10){
@@ -96,25 +96,27 @@
 		this->moved = true;
 		++this->pc;
 		darwin->update_board(*this, oldR, oldC, this->row, this->col);
-		//update board (put in Darwin)
 	}
 
 	void Creature::left(){
 		this->dir = (this->dir+3)%4;
 		this->moved = true;
 		++this->pc;
-		//darwin.update_board(*this, row, col, row, col);
 	}
 
 	void Creature::right(){
 		this->dir = (this->dir+1)%4;
 		this->moved = true;
 		++this->pc;
-		//darwin.update_board(*this, row, col, row, col);
 	}
 
 	void Creature::infect(Darwin* darwin){
-	// darwin.update_board(*this, oldR, oldC, row, col);
+		Creature& e = darwin->get_enemy(*this, this->row, this->col, this->col);
+		e.sp = Species(this->sp);
+		e.pc = 0;
+		this->moved = true;
+		++this->pc;
+		// darwin->update_board(e, e.row, e.col, e.row, e.col);
 	// 	bool infect = Darwin::infect(this);
 	}
 
@@ -124,7 +126,7 @@
 			this->pc = n;
 		else
 			++this->pc;
-		readInstruction(darwin);
+		read_instruction(darwin);
 	}
 
 	void Creature::if_wall(Darwin* darwin, int n){
@@ -133,7 +135,7 @@
 			this->pc = n;
 		else
 			++this->pc;
-		readInstruction(darwin);
+		read_instruction(darwin);
 	}
 
 	void Creature::if_random(Darwin* darwin, int n){
@@ -142,19 +144,21 @@
 			++this->pc;
 		else
 			this->pc = n;
-		readInstruction(darwin);
+		read_instruction(darwin);
 	}
 
 	void Creature::if_enemy(Darwin* darwin, int n){
 		bool enemy = darwin->is_enemy(*this, this->row, this->col, this->dir);
-		if(enemy)
+		if(enemy){
 			this->pc = n;
-		else
+		}
+		else{
 			++this->pc;
-		readInstruction(darwin);
+		}
+		read_instruction(darwin);
 	}
 
 	void Creature::go(Darwin* darwin, int n){
 		this->pc = n;
-		readInstruction(darwin);
+		read_instruction(darwin);
 	}

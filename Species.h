@@ -1,7 +1,13 @@
+#ifndef Species_h
+#define Species_h
+
 using namespace std;
 
 class Species {
 private:
+	// FRIEND_TEST(DarwinSpecies, add_instruction_1);
+	// FRIEND_TEST(DarwinSpecies, add_instruction_2);
+	// FRIEND_TEST(DarwinSpecies, add_instruction_3);
 	int instructions[15];
 	int index;
 	char initial;
@@ -10,8 +16,14 @@ public:
 	Species() {}
 
 	Species(char c){
-		index = 0;
-		initial = c;
+		this->index = 0;
+		this->initial = c;
+	}
+
+	Species(const Species& s){
+		this->initial = s.initial;
+		for (int i = 0; i < 15; ++i)
+			this->instructions[i] = s.instructions[i];
 	}
 
 	bool operator == (Species s) {
@@ -26,7 +38,7 @@ public:
 		return this->initial;
 	}
 
-	void addInstruction(int instruction, int n){
+	void add_instruction(int instruction, int n){
 		//hop 0
 		//left 1
 		//right 2
@@ -45,4 +57,7 @@ public:
 		}
 		++this->index;
 	}
+
 };
+
+#endif

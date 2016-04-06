@@ -13,6 +13,7 @@ class Creature;
 
 class Darwin {
 	private:
+		// FRIEND_TEST(Darwin, add_creature_1);
 		int rows;
 		int cols;
 		vector<Creature> creatures;
@@ -31,13 +32,13 @@ class Darwin {
 		
 		const Creature& at(int, int);
 
-		// Creature infect(Creature&);
-
 		bool is_wall(int, int, int);
 		
 		bool is_empty(int, int, int);
 
 		bool is_enemy(Creature&, int, int, int);
+
+		Creature& get_enemy(Creature&, int, int, int);
 
 		void update_board(Creature&, int, int, int, int);
 

@@ -1,7 +1,7 @@
 #ifndef CREATURE_H
 #define CREATURE_H
 
-//using namespace std;
+using namespace std;
 #include "Species.h"
 #include "Darwin.h"
 #include <cstdlib>
@@ -29,11 +29,11 @@ public:
 
 	char get_species();
 
-	bool checkSameSpecies(Creature);
+	bool check_same_species(Creature);
 
 	void reset_moved();
 
-	void readInstruction(Darwin*);
+	void read_instruction(Darwin*);
 
 	void hop(Darwin*);
 

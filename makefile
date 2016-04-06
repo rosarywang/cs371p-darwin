@@ -33,19 +33,20 @@ Darwin.log:
 Doxyfile:
 	doxygen -g
 
-RunDarwin: Darwin.h Creature.h Darwin.c++ Creature.c++ RunDarwin.c++
-	$(CXX) $(CXXFLAGS) $(GPROFFLAGS) Darwin.c++ Creature.c++ RunDarwin.c++ -o RunDarwin
+RunDarwin: Species.h Creature.h Creature.c++ Darwin.h Darwin.c++ RunDarwin.c++
+	$(CXX) $(CXXFLAGS) $(GPROFFLAGS) Creature.c++ Darwin.c++ RunDarwin.c++ -o RunDarwin
 
 RunDarwin.tmp: RunDarwin
 	./RunDarwin > RunDarwin.tmp
 	diff RunDarwin.tmp RunDarwin.out
 	$(GPROF) ./RunDarwin
 
-TestDarwin: Darwin.h Creature.h Darwin.c++ Creature.c++ TestDarwin.c++
-	$(CXX) $(CXXFLAGS) $(GCOVFLAGS) Darwin.c++ Creature.c++ TestDarwin.c++ -o TestDarwin $(LDFLAGS)
+TestDarwin: Species.h Creature.h Creature.c++ Darwin.h Darwin.c++ TestDarwin.c++
+	$(CXX) $(CXXFLAGS) $(GCOVFLAGS) Creature.c++ Darwin.c++ TestDarwin.c++ -o TestDarwin $(LDFLAGS)
 
 TestDarwin.tmp: TestDarwin
 	$(VALGRIND) ./TestDarwin                                      >  TestDarwin.tmp 2>&1
+	$(GCOV) -b Creature.c++     | grep -A 5 "File 'Creature.c++'"     >> TestDarwin.tmp
 	$(GCOV) -b Darwin.c++     | grep -A 5 "File 'Darwin.c++'"     >> TestDarwin.tmp
 	$(GCOV) -b TestDarwin.c++ | grep -A 5 "File 'TestDarwin.c++'" >> TestDarwin.tmp
 	cat TestDarwin.tmp
