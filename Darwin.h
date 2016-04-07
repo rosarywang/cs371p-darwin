@@ -18,11 +18,21 @@ class Darwin {
 		FRIEND_TEST(DarwinTest, add_creature_1);
 		FRIEND_TEST(DarwinTest, add_creature_2);
 		FRIEND_TEST(DarwinTest, add_creature_3);
+		FRIEND_TEST(DarwinTest, parameters_1);
+		FRIEND_TEST(DarwinTest, parameters_2);
+		FRIEND_TEST(DarwinTest, parameters_3);
+		FRIEND_TEST(DarwinTest, begin_1);
+		FRIEND_TEST(DarwinTest, end_1);
+		FRIEND_TEST(DarwinTest, at_1);
+		FRIEND_TEST(DarwinTest, at_2);
+		FRIEND_TEST(DarwinTest, at_3);
+		FRIEND_TEST(DarwinTest, update_board_1);
 		FRIEND_TEST(DarwinCreature, hop_1);
 		FRIEND_TEST(DarwinCreature, hop_2);
 		FRIEND_TEST(DarwinCreature, hop_3);
 		FRIEND_TEST(DarwinCreature, infect_2);
 		FRIEND_TEST(DarwinCreature, infect_3);
+
 
 		int rows;
 		int cols;

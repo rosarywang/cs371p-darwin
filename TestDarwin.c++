@@ -856,6 +856,37 @@ TEST(DarwinCreature, go_3) {
 // Darwin
 // ------
 
+// ----------------
+// Darwin(int, int)
+// ----------------
+
+TEST(DarwinTest, parameters_1) {
+	Darwin d = Darwin(4, 5);
+	ASSERT_EQ(d.rows, 4);
+	ASSERT_EQ(d.cols, 5);
+	ASSERT_EQ(d.creatures.size(), 20);
+	ASSERT_EQ(d.board.size(), 4);
+	ASSERT_EQ(d.board[0].size(), 5);
+}
+
+TEST(DarwinTest, parameters_2) {
+	Darwin d = Darwin(10, 10);
+	ASSERT_EQ(d.rows, 10);
+	ASSERT_EQ(d.cols, 10);
+	ASSERT_EQ(d.creatures.size(), 100);
+	ASSERT_EQ(d.board.size(), 10);
+	ASSERT_EQ(d.board[0].size(), 10);
+}
+
+TEST(DarwinTest, parameters_3) {
+	Darwin d = Darwin(7, 9);
+	ASSERT_EQ(d.rows, 7);
+	ASSERT_EQ(d.cols, 9);
+	ASSERT_EQ(d.creatures.size(), 63);
+	ASSERT_EQ(d.board.size(), 7);
+	ASSERT_EQ(d.board[0].size(), 9);
+}
+
 // ------------
 // add_creature
 // ------------
@@ -911,17 +942,64 @@ TEST(DarwinTest, add_creature_3) {
 // begin
 // -----
 
-// TEST(DarwinTest, begin_1) {
-
-// }
+TEST(DarwinTest, begin_1) {
+	Darwin darwin = Darwin(3, 3);
+	ASSERT_EQ(darwin.begin(), darwin.board.begin());
+}
 
 // ---
 // end
 // ---
 
+TEST(DarwinTest, end_1) {
+	Darwin darwin = Darwin(12, 12);
+	ASSERT_EQ(darwin.end(), darwin.board.end());
+}
+
 // --
 // at
 // --
+TEST(DarwinTest, at_1) {
+	Species ape = Species('a');
+
+	Creature a1 = Creature(ape, 2, 1, 0, 4, 4, 0);
+	Creature a2 = Creature(ape, 3, 0, 1, 4, 4, 1);
+	Creature a3 = Creature(ape, 1, 3, 3, 4, 4, 2);
+
+	Darwin darwin = Darwin(4, 4);
+	darwin.add_creature(a1, 2, 1);
+	darwin.add_creature(a2, 3, 0);
+	darwin.add_creature(a3, 1, 3);
+
+	// ASSERT_EQ(darwin.at(2, 1), a1);
+	// ASSERT_EQ(darwin.at(3, 0), a2);
+	// ASSERT_EQ(darwin.at(1, 3), a3);
+}
+
+TEST(DarwinTest, at_2) {
+	Species food = Species('f');
+
+	Creature f = Creature(food, 6, 6, 0, 13, 13, 0);
+
+	Darwin darwin = Darwin(13, 13);
+	darwin.add_creature(f, 6, 6);
+	//test the exception
+}
+
+TEST(DarwinTest, at_3) {
+	Species f = Species('f');
+
+	Creature f1 = Creature(f, 3, 1, 1, 4, 4, 0);
+	Creature f2 = Creature(f, 0, 3, 2, 4, 4, 1);
+
+	Darwin darwin = Darwin(4, 4);
+	darwin.add_creature(f1, 3, 1);
+	darwin.add_creature(f2, 0, 3);
+
+	// ASSERT_EQ(darwin.at(3, 1), f1);
+	// ASSERT_EQ(darwin.at(0, 3), f2);
+	//test the exception
+}
 
 // -------
 // is_wall
@@ -944,8 +1022,14 @@ TEST(DarwinTest, is_wall_3) {
 	ASSERT_TRUE(darwin.is_wall(4, 6, 2));
 	ASSERT_TRUE(darwin.is_wall(6, 2, 3));
 	ASSERT_TRUE(darwin.is_wall(5, 0, 0));
-
 }
+
+TEST(DarwinTest, is_wall_4) {
+	Darwin darwin = Darwin(5, 3);
+	ASSERT_TRUE(darwin.is_wall(4, 2, 3));
+	ASSERT_FALSE(darwin.is_wall(2, 1, 0));
+}
+
 // --------
 // is_empty
 // --------
@@ -999,6 +1083,24 @@ TEST(DarwinTest, is_empty_3) {
 	ASSERT_FALSE(d.is_empty(0, 1, 0));
 	ASSERT_FALSE(d.is_empty(1, 0, 2));
 	ASSERT_FALSE(d.is_empty(1, 1, 0));
+}
+
+TEST(DarwinTest, is_empty_4) {
+	Species rover = Species('r');
+	Creature r1 = Creature(rover, 2, 3, 1, 5, 5, 0);
+	Creature r2 = Creature(rover, 1, 0, 3, 5, 5, 1);
+	Creature r3 = Creature(rover, 3, 3, 0, 5, 5, 2);
+
+	Darwin d = Darwin(5, 5);
+	d.add_creature(r1, 2, 3);
+	d.add_creature(r2, 1, 0);
+	d.add_creature(r3, 3, 3);
+
+	ASSERT_TRUE(d.is_empty(0, 3, 0));
+	ASSERT_FALSE(d.is_empty(2, 3, 3));
+	ASSERT_TRUE(d.is_empty(4, 4, 2));
+	ASSERT_FALSE(d.is_empty(0, 0, 3));
+
 }
 
 // --------
@@ -1061,13 +1163,81 @@ TEST(DarwinTest, is_enemy_3) {
 	ASSERT_FALSE(d.is_enemy(d1, 1, 0, 2));
 }
 
+TEST(DarwinTest, is_enemy_4) {
+	Species ape = Species('a');
+	Species bee = Species('b');
+	Species cow = Species('c');
+
+	Creature a = Creature(ape, 2, 4, 2, 5, 6, 0);
+	Creature b = Creature(bee, 1, 0, 1, 5, 6, 1);
+	Creature c = Creature(cow, 3, 4, 0, 5, 6, 2);
+
+	Darwin d = Darwin(5, 6);
+	d.add_creature(a, 2, 4);
+	d.add_creature(b, 1, 0);
+	d.add_creature(c, 3, 4);
+
+	ASSERT_FALSE(d.is_enemy(b, 1, 0, 3));
+	ASSERT_FALSE(d.is_enemy(a, 2, 4, 0));
+	ASSERT_FALSE(d.is_enemy(c, 3, 4, 2));
+	ASSERT_TRUE(d.is_enemy(c, 3, 4, 1));
+}
+
 // ---------
 // get_enemy
 // ---------
 
+// TEST(DarwinTest, get_enemy_1) {
+// 	Species cat = Species('c');
+// 	Species dog = Species('d');
+
+// 	Creature d1 = Creature(dog, 3, 2, 3, 5, 5, 0);
+// 	Creature c1 = Creature(cat, 2, 2, 2, 5, 5, 1);
+
+// 	Darwin darwin = Darwin(5, 5);
+// 	darwin.add_creature(d1, 3, 2);
+// 	darwin.add_creature(c1, 2, 2);
+
+// 	Creature& enemy = darwin.get_enemy(d1, 3, 2, 3);
+// 	enemy.sp = Species(this->sp);
+
+// 	ASSERT_EQ(enemy->sp.get_initial(), 'c');
+// }
+
 // ------------
 // update_board
 // ------------
+
+TEST(DarwinTest, update_board_1) {
+	Species food = Species('f');
+	food.add_instruction(1, 0);
+    food.add_instruction(8, 0);
+
+	Species rover = Species('r');
+	rover.add_instruction(7, 9);
+    rover.add_instruction(4, 7);
+    rover.add_instruction(6, 5);
+    rover.add_instruction(1, 0);
+    rover.add_instruction(8, 0);
+    rover.add_instruction(2, 0);
+    rover.add_instruction(8, 0);
+    rover.add_instruction(0, 0);
+    rover.add_instruction(8, 0);
+    rover.add_instruction(3, 0);
+    rover.add_instruction(8, 0);
+
+    Creature f = Creature(food, 0, 1, 2, 3, 3, 0);
+    Creature r = Creature(rover, 0, 2, 0, 3, 3, 1);
+
+    Darwin darwin = Darwin(3, 3);
+    Darwin* d = &darwin;
+    darwin.add_creature(f, 0, 1);
+    darwin.add_creature(r, 0, 2);
+    r.read_instruction(d);
+
+    ASSERT_EQ(darwin.board[0][1], 0);
+    // ASSERT_EQ(darwin.creatures[0], 'r');
+}
 
 // ----
 // play
@@ -1152,6 +1322,28 @@ TEST(DarwinTest, print_3) {
 	darwin.print_board(w, 0);
 
 	ASSERT_EQ("Turn = 0.\n  012345\n0 ......\n1 .t..tt\n2 tf....\n3 ..tt..\n4 t..t..\n5 .....t\n\n", w.str());
+}
+
+TEST(DarwinTest, print_board_4) {
+	Species food = Species('f');
+	Species best = Species('b');
+	Species trap = Species('t');
+
+	Creature f1 = Creature(food, 2, 4, 1, 8, 8, 0);
+	Creature f2 = Creature(food, 0, 7, 3, 8, 8, 1);
+	Creature b1 = Creature(best, 5, 6, 2, 8, 8, 2);
+	Creature t1 = Creature(trap, 3, 2, 0, 8, 8, 3);
+
+	Darwin darwin = Darwin(8, 8);
+	darwin.add_creature(f1, 2, 4);
+	darwin.add_creature(f2, 0, 7);
+	darwin.add_creature(b1, 5, 6);
+	darwin.add_creature(t1, 3, 2);
+
+	ostringstream w;
+	darwin.print_board(w, 0);
+
+	ASSERT_EQ("Turn = 0.\n  01234567\n0 .......f\n1 ........\n2 ....f...\n3 ..t.....\n4 ........\n5 ......b.\n6 ........\n7 ........\n\n", w.str());
 }
 
 
