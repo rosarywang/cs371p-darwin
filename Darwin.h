@@ -18,6 +18,9 @@ class Darwin {
 		FRIEND_TEST(DarwinTest, add_creature_1);
 		FRIEND_TEST(DarwinTest, add_creature_2);
 		FRIEND_TEST(DarwinTest, add_creature_3);
+		FRIEND_TEST(DarwinCreature, hop_1);
+		FRIEND_TEST(DarwinCreature, hop_2);
+		FRIEND_TEST(DarwinCreature, hop_3);
 
 		int rows;
 		int cols;

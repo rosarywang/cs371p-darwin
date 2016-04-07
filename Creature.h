@@ -24,6 +24,9 @@ private:
 public:
 	friend class CreatureTest;
 	FRIEND_TEST(CreatureTest, reset_moved_1);
+	FRIEND_TEST(CreatureTest, reset_moved_2);
+	FRIEND_TEST(CreatureTest, reset_moved_3);
+
 	Creature();
 
 	Creature(Species, int, int, int, int, int, int);

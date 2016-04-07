@@ -17,10 +17,6 @@ using namespace std;
 		this->board[row][col] = c.get_index();
 	}
 
-	// int* Darwin::pointer() {
-	// 	return this->board;
-	// }
-
 	vector<vector<int>>::iterator Darwin::begin() {
 		return this->board.begin();
 	}
@@ -35,19 +31,19 @@ using namespace std;
 
 	bool Darwin::is_wall(int r, int c, int d) {
 		switch(d){
-			case 0:
+			case 1:
 				if(r == 0)
 					return true;
 				break;
-			case 1:
+			case 2:
 				if(c == this->cols-1)
 					return true;
 				break;
-			case 2:
+			case 3:
 				if(r == this->rows-1)
 					return true;
 				break;
-			case 3:
+			case 0:
 				if(c == 0)
 					return true;
 				break;
@@ -60,19 +56,19 @@ using namespace std;
 	bool Darwin::is_empty(int r, int c, int d){
 		if(!is_wall(r, c, d)) {
 			switch(d) {
-				case 0: 
+				case 1: 
 					if(this->board[r-1][c] != -1)
 						return false;
 					break;
-				case 1: 
+				case 2: 
 					if(this->board[r][c+1] != -1)
 						return false;
 					break;
-				case 2: 
+				case 3: 
 					if(this->board[r+1][c] != -1)
 						return false;
 					break;
-				case 3: 
+				case 0: 
 					if(this->board[r][c-1] != -1)
 						return false;
 					break;
@@ -84,13 +80,13 @@ using namespace std;
 	bool Darwin::is_enemy(Creature& creature, int r, int c, int d){
 		if(!is_empty(r, c, d)&&!is_wall(r, c, d)) {
 			switch(d) {
-				case 0: 
-					return !creature.check_same_species(this->creatures[this->board[r-1][c]]);
 				case 1: 
-					return !creature.check_same_species(this->creatures[this->board[r][c+1]]);
+					return !creature.check_same_species(this->creatures[this->board[r-1][c]]);
 				case 2: 
-					return !creature.check_same_species(this->creatures[this->board[r+1][c]]);
+					return !creature.check_same_species(this->creatures[this->board[r][c+1]]);
 				case 3: 
+					return !creature.check_same_species(this->creatures[this->board[r+1][c]]);
+				case 0: 
 					return !creature.check_same_species(this->creatures[this->board[r][c-1]]);
 			}
 		}
@@ -99,13 +95,13 @@ using namespace std;
 
 	Creature& Darwin::get_enemy(Creature& creature, int r, int c, int d) {
 		switch(d) {
-			case 0: 
-				return this->creatures[this->board[r-1][c]];
 			case 1: 
-				return this->creatures[this->board[r][c+1]];
+				return this->creatures[this->board[r-1][c]];
 			case 2: 
-				return this->creatures[this->board[r+1][c]];
+				return this->creatures[this->board[r][c+1]];
 			case 3: 
+				return this->creatures[this->board[r+1][c]];
+			case 0: 
 				return this->creatures[this->board[r][c-1]];
 		}
 		return creature;
@@ -114,7 +110,6 @@ using namespace std;
 	void Darwin::update_board(Creature& creature, int oldR, int oldC, int newR, int newC) {
 		board[oldR][oldC] = -1;
 		board[newR][newC] = creature.get_index();
-		//creatures[creature.get_index()] = creature;
 	}
 
 	void Darwin::play() {

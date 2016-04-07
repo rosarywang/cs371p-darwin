@@ -75,19 +75,19 @@
 		int oldC = this->col;
 		if(darwin->is_empty(this->row, this->col, this->dir)) {
 			switch(this->dir){
-				case 0:
+				case 1:
 					if(this->row > 0)
 						--this->row;
 					break;
-				case 1:
+				case 2:
 					if(this->col < this->max_col-1)
 						++this->col;
 					break;
-				case 2:
+				case 3:
 					if(this->row < this->max_row-1)
 						++row;
 					break;
-				case 3:
+				case 0:
 					if(this->col > 0 )
 						--this->col;
 					break;
@@ -116,8 +116,6 @@
 		e.pc = 0;
 		this->moved = true;
 		++this->pc;
-		// darwin->update_board(e, e.row, e.col, e.row, e.col);
-	// 	bool infect = Darwin::infect(this);
 	}
 
 	void Creature::if_empty(Darwin* darwin, int n){
