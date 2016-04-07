@@ -971,9 +971,35 @@ TEST(DarwinTest, at_1) {
 	darwin.add_creature(a2, 3, 0);
 	darwin.add_creature(a3, 1, 3);
 
-	// ASSERT_EQ(darwin.at(2, 1).sp, 'a');
-	// ASSERT_EQ(darwin.at(3, 0).sp, darwin.creatures[1].get_species());
-	// ASSERT_EQ(darwin.at(1, 3).sp, darwin.creatures[2].get_species());
+	ASSERT_EQ((darwin.at(2, 1).sp).initial, darwin.creatures[0].get_species());
+    ASSERT_EQ(darwin.at(2, 1).pc, darwin.creatures[0].pc);
+    ASSERT_EQ(darwin.at(2, 1).moved, darwin.creatures[0].moved);
+    ASSERT_EQ(darwin.at(2, 1).row, darwin.creatures[0].row);
+    ASSERT_EQ(darwin.at(2, 1).col, darwin.creatures[0].col);
+    ASSERT_EQ(darwin.at(2, 1).dir, darwin.creatures[0].dir);
+    ASSERT_EQ(darwin.at(2, 1).max_row, darwin.creatures[0].max_row);
+    ASSERT_EQ(darwin.at(2, 1).max_col, darwin.creatures[0].max_col);
+    ASSERT_EQ(darwin.at(2, 1).index, darwin.creatures[0].index);
+
+    ASSERT_EQ((darwin.at(3, 0).sp).initial, darwin.creatures[1].get_species());
+    ASSERT_EQ(darwin.at(3, 0).pc, darwin.creatures[1].pc);
+    ASSERT_EQ(darwin.at(3, 0).moved, darwin.creatures[1].moved);
+    ASSERT_EQ(darwin.at(3, 0).row, darwin.creatures[1].row);
+    ASSERT_EQ(darwin.at(3, 0).col, darwin.creatures[1].col);
+    ASSERT_EQ(darwin.at(3, 0).dir, darwin.creatures[1].dir);
+    ASSERT_EQ(darwin.at(3, 0).max_row, darwin.creatures[1].max_row);
+    ASSERT_EQ(darwin.at(3, 0).max_col, darwin.creatures[1].max_col);
+    ASSERT_EQ(darwin.at(3, 0).index, darwin.creatures[1].index);
+
+    ASSERT_EQ((darwin.at(1, 3).sp).initial, darwin.creatures[2].get_species());
+    ASSERT_EQ(darwin.at(1, 3).pc, darwin.creatures[2].pc);
+    ASSERT_EQ(darwin.at(1, 3).moved, darwin.creatures[2].moved);
+    ASSERT_EQ(darwin.at(1, 3).row, darwin.creatures[2].row);
+    ASSERT_EQ(darwin.at(1, 3).col, darwin.creatures[2].col);
+    ASSERT_EQ(darwin.at(1, 3).dir, darwin.creatures[2].dir);
+    ASSERT_EQ(darwin.at(1, 3).max_row, darwin.creatures[2].max_row);
+    ASSERT_EQ(darwin.at(1, 3).max_col, darwin.creatures[2].max_col);
+    ASSERT_EQ(darwin.at(1, 3).index, darwin.creatures[2].index);
 }
 
 TEST(DarwinTest, at_2) {
@@ -983,7 +1009,16 @@ TEST(DarwinTest, at_2) {
 
 	Darwin darwin = Darwin(13, 13);
 	darwin.add_creature(f, 6, 6);
-	//test the exception
+	try {
+        darwin.at(2, 3);
+        FAIL() << "Expected out_of_range";
+    }
+    catch(std::out_of_range& err) {
+        EXPECT_EQ(err.what(),std::string("index out of bound"));
+    }
+    catch(...) {
+        FAIL() << "Expected out_of_range";
+    }
 }
 
 TEST(DarwinTest, at_3) {
@@ -996,9 +1031,36 @@ TEST(DarwinTest, at_3) {
 	darwin.add_creature(f1, 3, 1);
 	darwin.add_creature(f2, 0, 3);
 
-	// ASSERT_EQ(darwin.at(3, 1), f1);
-	// ASSERT_EQ(darwin.at(0, 3), f2);
-	//test the exception
+	ASSERT_EQ((darwin.at(3, 1).sp).initial, f1.get_species());
+    ASSERT_EQ(darwin.at(3, 1).pc, f1.pc);
+    ASSERT_EQ(darwin.at(3, 1).moved, f1.moved);
+    ASSERT_EQ(darwin.at(3, 1).row, f1.row);
+    ASSERT_EQ(darwin.at(3, 1).col, f1.col);
+    ASSERT_EQ(darwin.at(3, 1).dir, f1.dir);
+    ASSERT_EQ(darwin.at(3, 1).max_row, f1.max_row);
+    ASSERT_EQ(darwin.at(3, 1).max_col, f1.max_col);
+    ASSERT_EQ(darwin.at(3, 1).index, f1.index);
+
+    ASSERT_EQ((darwin.at(0, 3).sp).initial, f2.get_species());
+    ASSERT_EQ(darwin.at(0, 3).pc, f2.pc);
+    ASSERT_EQ(darwin.at(0, 3).moved, f2.moved);
+    ASSERT_EQ(darwin.at(0, 3).row, f2.row);
+    ASSERT_EQ(darwin.at(0, 3).col, f2.col);
+    ASSERT_EQ(darwin.at(0, 3).dir, f2.dir);
+    ASSERT_EQ(darwin.at(0, 3).max_row, f2.max_row);
+    ASSERT_EQ(darwin.at(0, 3).max_col, f2.max_col);
+    ASSERT_EQ(darwin.at(0, 3).index, f2.index);
+	
+    try {
+        darwin.at(2, 3);
+        FAIL() << "Expected out_of_range";
+    }
+    catch(std::out_of_range& err) {
+        EXPECT_EQ(err.what(),std::string("index out of bound"));
+    }
+    catch(...) {
+        FAIL() << "Expected out_of_range";
+    }
 }
 
 // -------
@@ -1191,15 +1253,16 @@ TEST(DarwinTest, get_enemy_1) {
 	Species cat = Species('c');
 	Species dog = Species('d');
 
-	Creature d1 = Creature(dog, 3, 2, 3, 5, 5, 0);
+	Creature d1 = Creature(dog, 3, 2, 1, 5, 5, 0);
 	Creature c1 = Creature(cat, 2, 2, 2, 5, 5, 1);
 
 	Darwin darwin = Darwin(5, 5);
 	darwin.add_creature(d1, 3, 2);
 	darwin.add_creature(c1, 2, 2);
 
-	Creature& enemy = darwin.get_enemy(d1, 3, 2, 3);
-
+	ASSERT_TRUE(darwin.is_enemy(d1, 3, 2, 1));
+	Creature& enemy = darwin.get_enemy(d1, 3, 2, 1);
+	ASSERT_NE(enemy.get_species(), d1.get_species());
 }
 
 TEST(DarwinTest, get_enemy_2) {
@@ -1208,19 +1271,24 @@ TEST(DarwinTest, get_enemy_2) {
 	Species rover = Species('r');
 
 	Creature f = Creature(food, 1, 4, 0, 5, 7, 0);
-	Creature h = Creature(hop, 1, 2, 2, 5, 7, 1);
-	Creature r = Creature(rover, 1, 3, 2, 5, 7, 2);
+	Creature h = Creature(hop, 1, 2, 0, 5, 7, 1);
+	Creature r = Creature(rover, 1, 3, 0, 5, 7, 2);
 
 	Darwin darwin = Darwin(5, 7);
 	darwin.add_creature(f, 1, 4);
 	darwin.add_creature(h, 1, 2);
 	darwin.add_creature(r, 1, 3);
 
-	Creature& e1 = darwin.get_enemy(r, 1, 3, 2);
-	Creature& e2 = darwin.get_enemy(r, 1, 3, 0);
+    ASSERT_TRUE(darwin.is_enemy(r, 1, 3, 0));
+	Creature& e1 = darwin.get_enemy(r, 1, 3, 0);
+    ASSERT_NE(e1.get_species(), r.get_species());
+
+    ASSERT_TRUE(darwin.is_enemy(f, 1, 4, 0));
+	Creature& e2 = darwin.get_enemy(f, 1, 4, 0);
+    ASSERT_NE(e2.get_species(), f.get_species());
 }
 
-TEST(DarwinTest, get_enemy_2) {
+TEST(DarwinTest, get_enemy_3) {
 	Species ape = Species('a');
 	Species bee = Species('b');
 
@@ -1235,17 +1303,41 @@ TEST(DarwinTest, get_enemy_2) {
 	darwin.add_creature(b1, 0, 1);
 	darwin.add_creature(b2, 1, 0);
 
+    ASSERT_TRUE(darwin.is_enemy(b1, 0, 1, 3));
 	Creature& e1 = darwin.get_enemy(b1, 0, 1, 3);
-	Creature& e2 = darwin.get_enemy(b1, 0, 1, 0);
-	Creature& e3 = darwin.get_enemy(b2, 1, 0, 2);
-	Creature& e4 = darwin.get_enemy(b2, 1, 0, 1);
+    ASSERT_NE(e1.get_species(), b1.get_species());
 
+    ASSERT_TRUE(darwin.is_enemy(b1, 0, 1, 0));
+	Creature& e2 = darwin.get_enemy(b1, 0, 1, 0);
+    ASSERT_NE(e2.get_species(), b1.get_species());
+
+    ASSERT_TRUE(darwin.is_enemy(b2, 1, 0, 2));
+	Creature& e3 = darwin.get_enemy(b2, 1, 0, 2);
+    ASSERT_NE(e3.get_species(), b2.get_species());
+
+    ASSERT_TRUE(darwin.is_enemy(b2, 1, 0, 1));
+	Creature& e4 = darwin.get_enemy(b2, 1, 0, 1);
+    ASSERT_NE(e4.get_species(), b2.get_species());
+
+
+    ASSERT_TRUE(darwin.is_enemy(a1, 0, 0, 3));
 	Creature& e5 = darwin.get_enemy(a1, 0, 0, 3);
+    ASSERT_NE(e5.get_species(), a1.get_species());
+
+    ASSERT_TRUE(darwin.is_enemy(a1, 0, 0, 2));
 	Creature& e6 = darwin.get_enemy(a1, 0, 0, 2);
+    ASSERT_NE(e6.get_species(), a1.get_species());
+
+    ASSERT_TRUE(darwin.is_enemy(a2, 1, 1, 0));
 	Creature& e7 = darwin.get_enemy(a2, 1, 1, 0);
+    ASSERT_NE(e7.get_species(), a2.get_species());
+
+    ASSERT_TRUE(darwin.is_enemy(a2, 1, 1, 1));
 	Creature& e8 = darwin.get_enemy(a2, 1, 1, 1);
+    ASSERT_NE(e8.get_species(), a2.get_species());
 
 }
+
 // ------------
 // update_board
 // ------------

@@ -26,7 +26,10 @@ using namespace std;
 	}
 
 	const Creature& Darwin::at(int row, int col) {
-		return this->creatures[this->board[row][col]];
+		if(this->board[row][col]>-1)
+			return this->creatures[this->board[row][col]];
+		else
+			throw out_of_range ("index out of bound");
 	}
 
 	bool Darwin::is_wall(int r, int c, int d) {
