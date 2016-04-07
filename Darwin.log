@@ -1,3 +1,9 @@
+commit 55cc8539a99ed28bec2922afa34990dbfec678d0
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Thu Apr 7 17:16:45 2016 -0500
+
+    run log and html
+
 commit 924725da88e2b244c384fda1c45627407dc005ad
 Merge: fd30e39 8388ee8
 Author: rosarywang <wangr@mccombs.utexas.edu>
