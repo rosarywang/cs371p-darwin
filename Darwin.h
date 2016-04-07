@@ -34,7 +34,9 @@ class Darwin {
 		FRIEND_TEST(DarwinTest, parameters_2);
 		FRIEND_TEST(DarwinTest, parameters_3);
 		FRIEND_TEST(DarwinTest, begin_1);
+		FRIEND_TEST(DarwinTest, begin_2);
 		FRIEND_TEST(DarwinTest, end_1);
+		FRIEND_TEST(DarwinTest, end_2);
 		FRIEND_TEST(DarwinTest, at_1);
 		FRIEND_TEST(DarwinTest, play_1);
 		FRIEND_TEST(DarwinTest, play_2);

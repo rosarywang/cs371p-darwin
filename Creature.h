@@ -9,19 +9,17 @@ using namespace std;
 
 class Darwin;
 
+// --------
+// Creature
+// --------
+
 class Creature {
 private:
-	Species sp;
-	int pc;
-	bool moved;
-	int row;
-	int col;
-	int dir;
-	int max_row;
-	int max_col;
-	int index;
 
-public:
+	// -----------
+	// FRIEND_TEST
+	// -----------
+
 	friend class DarwinCreature;
 	FRIEND_TEST(DarwinCreature, creature_default_1);
 	FRIEND_TEST(DarwinCreature, creature_default_2);
@@ -63,36 +61,192 @@ public:
 	FRIEND_TEST(DarwinTest, play_1);
 
 
+	Species sp;
+	int pc;
+	bool moved;
+	int row;
+	int col;
+	int dir;
+	int max_row;
+	int max_col;
+	int index;
+
+public:
+	// ------------
+    // constructors
+    // ------------
+
+    /**
+     * Default Constructor
+     * initialize moved to true and index to -1
+     */
 	Creature();
 
+	/**
+     * Regular Constructor
+     * create a Creature object
+     * @param sp a Species
+     * @param int row
+     * @param int col
+     * @param int dir
+     * @param int max_row
+     * @param int max_col
+     * @param int index
+     */
 	Creature(Species, int, int, int, int, int, int);
 
+	// ---------
+	// get_index
+	// ---------
+
+	/**
+	* @return int index of this creature in creatures vector
+	*/
 	int get_index();
 
+	// -----------
+	// get_species
+	// -----------
+
+	/**
+	* @return char initial of this creature's species
+	*/
 	char get_species();
 
+	// ------------------
+	// check_same_species
+	// ------------------
+
+	/**
+	* check if this and given creature have same Species
+	* @param c a Creature
+	* @return boolean for equality of Species
+	*/
 	bool check_same_species(Creature);
 
+	// -----------
+	// reset_moved
+	// -----------
+
+	/**
+	* reset all existing creature's moved to false
+	*/
 	void reset_moved();
 
+	// ----------------
+	// read_instruction
+	// ----------------
+
+	/**
+	* read next instruction for creature from its species's instructions set
+	* @param darwin a Darwin instance
+	*/
 	void read_instruction(Darwin*);
 
+	// ---
+	// hop
+	// ---
+
+	/**
+	* perform hop
+	* if the space ahead is empty, move forward, otherwise, do nothing
+	* @param darwin a Darwin instance
+	*/
 	void hop(Darwin*);
 
+	// ----
+	// left
+	// ----
+
+	/**
+	* perform left
+	* turn to face left
+	*/
 	void left();
 
+	// -----
+	// right
+	// -----
+
+	/**
+	* perform right
+	* turn to face right
+	*/
 	void right();
 
+	// ------
+	// infect
+	// ------
+
+	/**
+	* perform infect
+	* if the space ahead contains a creature of a different species, 
+	* change that creature to be of your species, reset the program counter to zero, 
+	* but leave the direction unchanged, otherwise, do nothing
+	* @param darwin a Darwin instance
+	*/
 	void infect(Darwin*);
 
+	// --------
+	// if_empty
+	// --------
+
+	/**
+	* perform if_empty
+	* if the space ahead is empty, go to line n, otherwise, go to the next line
+	* @param darwin a Darwin instance
+	* @param n an int
+	*/
 	void if_empty(Darwin*, int);
 
+	// -------
+	// if_wall
+	// -------
+
+	/**
+	* perform if_wall
+	* if the space ahead is a wall, go to line n, otherwise, go to the next line
+	* @param darwin a Darwin instance
+	* @param n an int
+	*/
 	void if_wall(Darwin*, int);
 
+	// ---------
+	// if_random
+	// ---------
+
+	/**
+	* perform if_wall
+	* randomly choose between going to line n or the next line. 
+	* If rand() from <cstdlib> returns an odd number, go to line n. 
+	* Call srand(0) at the start of every test case that uses rand()
+	* @param darwin a Darwin instance
+	* @param n an int
+	*/
 	void if_random(Darwin*, int);
 
+	// --------
+	// if_enemy
+	// --------
+
+	/**
+	* perform if_enemy
+	* if the space ahead contains a creature of a different species, go to line n, otherwise, go to the next line
+	* @param darwin a Darwin instance
+	* @param n an int
+	*/
 	void if_enemy(Darwin*, int);
 
+	// --
+	// go
+	// --
+
+	/**
+	* perform go
+	* go to line n
+	* @param darwin a Darwin instance
+	* @param n an int
+	*/
 	void go(Darwin*, int);
 };
 

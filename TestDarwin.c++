@@ -264,13 +264,13 @@ TEST(DarwinCreature, get_index_1) {
 
 TEST(DarwinCreature, get_index_2) {
     Species food = Species('b');
-    Creature f1 = Creature(food, 7, 7, 0, 3, 3, 1);
+    Creature f1 = Creature(food, 7, 7, 0, 8, 8, 1);
     ASSERT_EQ(f1.get_index(), 1);
 }
 
 TEST(DarwinCreature, get_index_3) {
     Species food = Species('z');
-    Creature f1 = Creature(food, 5, 3, 2, 5, 2, 3);
+    Creature f1 = Creature(food, 4, 1, 2, 5, 2, 3);
     ASSERT_EQ(f1.get_index(), 3);
 }
 
@@ -288,13 +288,13 @@ TEST(DarwinCreature, get_species_1) {
 
 TEST(DarwinCreature, get_species_2) {
     Species food = Species('b');
-    Creature f1 = Creature(food, 7, 7, 0, 3, 3, 1);
+    Creature f1 = Creature(food, 7, 7, 0, 8, 8, 1);
     ASSERT_EQ(f1.get_species(), 'b');
 }
 
 TEST(DarwinCreature, get_species_3) {
     Species food = Species('z');
-    Creature f1 = Creature(food, 5, 3, 2, 5, 2, 3);
+    Creature f1 = Creature(food, 4, 1, 2, 5, 2, 3);
     ASSERT_EQ(f1.get_species(), 'z');
 }
 
@@ -307,21 +307,21 @@ TEST(DarwinCreature, check_same_species_1) {
     food.add_instruction(1, 0);
     food.add_instruction(8, 0);
     Creature f1 = Creature(food, 0, 0, 1, 8, 8, 0);
-    Creature f2 = Creature(food, 7, 7, 0, 3, 3, 1);
+    Creature f2 = Creature(food, 2, 2, 0, 3, 3, 1);
     ASSERT_TRUE(f1.check_same_species(f2));
 }
 
 TEST(DarwinCreature, check_same_species_2) {
     Species food = Species('b');
     Species hooper = Species('h');
-    Creature f1 = Creature(food, 7, 7, 0, 3, 3, 1);
+    Creature f1 = Creature(food, 2, 2, 0, 3, 3, 1);
     Creature f2 = Creature(hooper, 0, 0, 1, 8, 8, 0);
     ASSERT_FALSE(f1.check_same_species(f2));
 }
 
 TEST(DarwinCreature, check_same_species_3) {
     Species food = Species('z');
-    Creature f1 = Creature(food, 5, 3, 2, 5, 2, 3);
+    Creature f1 = Creature(food, 4, 1, 2, 5, 2, 3);
     Creature f2 = Creature(food, 0, 0, 1, 8, 8, 0);
     ASSERT_TRUE(f1.check_same_species(f2));
 }
@@ -527,6 +527,7 @@ TEST(DarwinCreature, left_2) {
     Species food = Species('f');
     Creature f1 = Creature(food, 0, 0, 1, 8, 8, 0);
     f1.left();
+    f1.reset_moved();
     f1.left();
     ASSERT_EQ(3, f1.dir);
 }
@@ -535,7 +536,9 @@ TEST(DarwinCreature, left_3) {
     Species food = Species('f');
     Creature f1 = Creature(food, 0, 0, 1, 8, 8, 0);
     f1.left();
+    f1.reset_moved();
     f1.left();
+    f1.reset_moved();
     f1.left();
     ASSERT_EQ(2, f1.dir);
 }
@@ -563,6 +566,7 @@ TEST(DarwinCreature, right_2) {
     Species food = Species('f');
     Creature f1 = Creature(food, 0, 0, 1, 8, 8, 0);
     f1.right();
+    f1.reset_moved();
     f1.right();
     ASSERT_EQ(3, f1.dir);
 }
@@ -571,7 +575,9 @@ TEST(DarwinCreature, right_3) {
     Species food = Species('f');
     Creature f1 = Creature(food, 0, 0, 1, 8, 8, 0);
     f1.right();
+    f1.reset_moved();
     f1.right();
+    f1.reset_moved();
     f1.right();
     ASSERT_EQ(0, f1.dir);
 }
@@ -947,6 +953,18 @@ TEST(DarwinTest, begin_1) {
 	ASSERT_EQ(darwin.begin(), darwin.board.begin());
 }
 
+TEST(DarwinTest, begin_2) {
+    Darwin darwin = Darwin(3, 4);
+    ASSERT_EQ(darwin.begin()+3, darwin.board.end());
+    ASSERT_EQ(darwin.begin()+3, darwin.end());
+}
+
+TEST(DarwinTest, begin_3) {
+    Darwin darwin = Darwin(3, 4);
+    vector<vector<int>>::iterator vec = darwin.begin();
+    ASSERT_EQ(vec->begin()+4, vec->end());
+}
+
 // ---
 // end
 // ---
@@ -954,6 +972,18 @@ TEST(DarwinTest, begin_1) {
 TEST(DarwinTest, end_1) {
 	Darwin darwin = Darwin(12, 12);
 	ASSERT_EQ(darwin.end(), darwin.board.end());
+}
+
+TEST(DarwinTest, end_2) {
+    Darwin darwin = Darwin(3, 4);
+    ASSERT_EQ(darwin.begin()+3, darwin.board.end());
+    ASSERT_EQ(darwin.begin()+3, darwin.end());
+}
+
+TEST(DarwinTest, end_3) {
+    Darwin darwin = Darwin(3, 4);
+    vector<vector<int>>::iterator vec = darwin.begin();
+    ASSERT_EQ(vec->begin()+4, vec->end());
 }
 
 // --
@@ -1173,7 +1203,7 @@ TEST(DarwinTest, is_enemy_1) {
 	Species dog = Species('d');
 
 	Creature c = Creature(cat, 1, 2, 3, 3, 3, 0);
-	Creature d = Creature(dog, 2, 2, 1, 3, 1, 1);
+	Creature d = Creature(dog, 2, 0, 1, 3, 1, 1);
 
 	Darwin darwin = Darwin(3, 3);
 	darwin.add_creature(c, 1, 2);

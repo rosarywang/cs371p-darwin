@@ -32,9 +32,6 @@ private:
 	FRIEND_TEST(DarwinTest, at_1);
 	FRIEND_TEST(DarwinTest, at_3);
 
-	// ----
-	// data
-	// ----
 
 	int instructions[15];
 	int index;
@@ -50,6 +47,7 @@ public:
      * Default Constructor
      * initialize index and initial
      * if no argument is provided, default initial to '\0'
+     * @param c a char
      */
 	Species(char c = '\0'){
 		this->index = 0;
@@ -59,6 +57,7 @@ public:
 	 /**
      * Copy Constructor
      * copy the initial and instructions from given Species
+     * @param s a Species
      */
 	Species(const Species& s){
 		this->initial = s.initial;
@@ -74,7 +73,7 @@ public:
      * == operator
      * checks the equlity of initials between this and given Species
      * @param s a Species
- 	 * @return bool, equality of initials
+ 	 * @return boolean equality of initials
      */
 	bool operator == (Species s) {
 		return this->initial == s.initial;
@@ -119,7 +118,8 @@ public:
 	 * if_random 6
 	 * if_enemy 7
 	 * go 8
-	 * @param instruction int, n int
+	 * @param instruction an int
+	 * @param n an int
      */
 	void add_instruction(int instruction, int n){
 		assert(instruction >= 0);
