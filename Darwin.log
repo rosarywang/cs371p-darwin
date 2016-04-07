@@ -1,0 +1,226 @@
+commit 924725da88e2b244c384fda1c45627407dc005ad
+Merge: fd30e39 8388ee8
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Thu Apr 7 17:12:18 2016 -0500
+
+    Merge branch 'dev' of https://github.com/rosarywang/cs371p-darwin into dev
+
+commit fd30e393c2d5e6f95fb6bc2356751426364bada5
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Thu Apr 7 17:10:29 2016 -0500
+
+    modify TestDarwin.out
+
+commit 8388ee85629bc1da5a9bbe4ca80752eaab1913c4
+Author: atoops <atoops@yahoo.com>
+Date:   Thu Apr 7 17:00:58 2016 -0500
+
+    adding uml pdf
+
+commit e246cd064e4aa73691408e2c489bbec61e697846
+Merge: 8ab5e01 46e2998
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Thu Apr 7 16:58:11 2016 -0500
+
+    Merge branch 'dev' of https://github.com/rosarywang/cs371p-darwin into dev
+
+commit 8ab5e0121faf53ed218c290279c41ff66d7f210f
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Thu Apr 7 16:57:56 2016 -0500
+
+    update unit tests, add comments and assert()
+
+commit 46e2998bf8c87d2b82b71883c1de57603e0fe847
+Author: Ashley Toops <atoops@cs.utexas.edu>
+Date:   Thu Apr 7 16:06:26 2016 -0500
+
+    updating Darwin asserts
+
+commit 8b01a411b23ec00558c600415b5366c52d3a8884
+Author: Ashley Toops <atoops@cs.utexas.edu>
+Date:   Thu Apr 7 15:58:26 2016 -0500
+
+    adding asserts in Darwin.c++
+
+commit ca23cbce33ab2a524d204ae11af12f2885fc2b35
+Merge: 90b2148 ecc3ca1
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Thu Apr 7 15:19:10 2016 -0500
+
+    resolve merge conflect
+
+commit 90b2148e5fbbed995cd48b8e964e40b36349101f
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Thu Apr 7 15:14:39 2016 -0500
+
+    finished unit tests, added assertions and comments on Species, need Creature and Darwin
+
+commit ecc3ca19070f4403b6e6b724962e3c7919c02a67
+Author: Ashley Toops <atoops@cs.utexas.edu>
+Date:   Thu Apr 7 15:01:57 2016 -0500
+
+    adding the exception for Darwin::at()
+
+commit d970249c94d6a8e48ae2b01d266b4a4050af1f4a
+Author: Ashley Toops <atoops@cs.utexas.edu>
+Date:   Thu Apr 7 14:49:53 2016 -0500
+
+    comments for Darwin:
+
+commit 81808238816e8e19c8c407307435311871aa7d81
+Author: Ashley Toops <atoops@cs.utexas.edu>
+Date:   Thu Apr 7 12:00:58 2016 -0500
+
+    unit tests
+
+commit 96d910d82ec20d11d8ca35336016a6a909d05b94
+Author: Ashley Toops <atoops@cs.utexas.edu>
+Date:   Thu Apr 7 09:57:56 2016 -0500
+
+    still working on unit tests.
+
+commit e0fb4104440278996e564a6cb5ccee83016906e9
+Merge: 63f8d33 eeaeebc
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Thu Apr 7 02:46:04 2016 -0500
+
+    Merge branch 'dev' of https://github.com/rosarywang/cs371p-darwin into dev
+
+commit 63f8d339ba64a58f3d9048af9fec77dbddd5c0eb
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Thu Apr 7 02:45:30 2016 -0500
+
+    unit tests for Species and Creature; this closed #2, closed #3, closed #5, closed #11, closed #12, closed #13, and closed #14
+
+commit eeaeebc103c657d5e8d7452b2026586fa433b8f0
+Author: Ashley Toops <atoops@cs.utexas.edu>
+Date:   Thu Apr 7 00:52:05 2016 -0500
+
+    removed gprof
+
+commit 2c57cbf4b558b3881d74a6b60b1e2cc5fb912a19
+Author: Ashley Toops <atoops@cs.utexas.edu>
+Date:   Thu Apr 7 00:50:01 2016 -0500
+
+    updating RunDarwin.out
+
+commit 868ad28d9159deebf8c784bc5ca78b6a22eb040f
+Author: Ashley Toops <atoops@cs.utexas.edu>
+Date:   Thu Apr 7 00:46:36 2016 -0500
+
+    working on unit tests
+
+commit 9639e37a8eee9c78d425e38f862c0df9d8f96620
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Wed Apr 6 22:47:24 2016 -0500
+
+    update direction, update 72x72 with best
+
+commit bcb9649f6b632e0c04a42b7c79673666bb40dfee
+Author: Ashley Toops <atoops@cs.utexas.edu>
+Date:   Wed Apr 6 21:15:13 2016 -0500
+
+    working on unit tests
+
+commit 1e158847e7f11c2bbbea7167be89c3552db66ff2
+Author: Ashley Toops <atoops@cs.utexas.edu>
+Date:   Wed Apr 6 17:50:43 2016 -0500
+
+    adding breaks to switch statements, close #15
+
+commit 94c313158b02abf1ec69cd7b40c38ba5df23ed9e
+Author: Ashley Toops <atoops@cs.utexas.edu>
+Date:   Wed Apr 6 16:58:44 2016 -0500
+
+    adding friend test
+
+commit f7e2b4e5b1d067a4b83108b6faceaed685824947
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Wed Apr 6 13:26:56 2016 -0500
+
+    still trying to debug infect/get_enemy, potential problem in is_empty or is_enemy
+
+commit 5e1d10e6b7a2d1009fa0327975b8635d1adfb528
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Wed Apr 6 07:54:09 2016 -0500
+
+    update infect and get_enemy, start unit tests
+
+commit 96ce68edb0033ec98e583697b96cf6b6496cf54c
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Wed Apr 6 00:10:27 2016 -0500
+
+    fix is_wall bug; this closes #11
+
+commit 72500f2fc45fa2439b6400be9ed21f2697419a2d
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Tue Apr 5 23:41:42 2016 -0500
+
+    need to update on is_wall
+
+commit d4e241cff8bc9813fb87a8ad7b9755b1c93604a4
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Tue Apr 5 23:36:37 2016 -0500
+
+    fix missing f problem
+
+commit 6ea88bddab7d6ba7fa6e664f905d4d8ab5676898
+Author: Ashley Toops <atoops@cs.utexas.edu>
+Date:   Tue Apr 5 20:45:25 2016 -0500
+
+    working on hop
+
+commit 505155ad62c06ee134ad022155a1c8e752b9498b
+Merge: 32eb144 61b0467
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Tue Apr 5 16:52:28 2016 -0500
+
+    resolve merge conflict
+
+commit 32eb14424035f580a6dd3bcb11c04bf56341d01a
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Tue Apr 5 16:50:08 2016 -0500
+
+    add 2d vector<int> board and vecotr of Creature
+
+commit 61b04676251e1b1b2f38f488f78355ecd87d548b
+Author: Ashley Toops <atoops@cs.utexas.edu>
+Date:   Tue Apr 5 14:14:37 2016 -0500
+
+    updating makefile
+
+commit 37cf78dfcd4271438e7e742da2ef533bdac3b4fc
+Author: Ashley Toops <atoops@cs.utexas.edu>
+Date:   Sun Apr 3 10:09:59 2016 -0500
+
+    adding c++ files
+
+commit a78250cc072751434da48fd2939bc75f8f65158d
+Author: Ashley Toops <atoops@cs.utexas.edu>
+Date:   Sat Apr 2 19:28:14 2016 -0500
+
+    fixed private member problem
+
+commit 510f0b8304404212ee2ff8d51b2061c1c20c2bf2
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Thu Mar 31 18:45:32 2016 -0500
+
+    create Species.h, Creature.h, Darwin.h
+
+commit c69b38f91749781a0f4c283362b26891028e6add
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Wed Mar 30 14:33:56 2016 -0500
+
+    add more files
+
+commit 29e225a4a96d8e900025bdd7f5c173daefef8583
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Wed Mar 30 14:21:35 2016 -0500
+
+    add .gitignore, .travis.yml, RunDarwin.c++, RunDarwin.out, makefile
+
+commit d0aff2edcefa0e74c17101bd7a39bf43904b8256
+Author: rosarywang <rosarywang@users.noreply.github.com>
+Date:   Wed Mar 30 14:09:47 2016 -0500
+
+    Initial commit
