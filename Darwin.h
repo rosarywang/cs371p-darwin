@@ -55,11 +55,14 @@ class Darwin {
 		vector<vector<int>> board;
 		
 	public:
-		Darwin();
+		// ------------
+		// constructors
+		// ------------
 
-		// ------
-		// Darwin
-		// ------
+		/** Default Constructor
+		*/
+
+		Darwin();
 
 		/** 
 		* Creates an instance of Darwin

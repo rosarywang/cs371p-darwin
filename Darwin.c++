@@ -2,12 +2,12 @@
 
 using namespace std;
 
+	// ------------
+	// constructors
+	// ------------
+
 	Darwin::Darwin(){
 	}
-
-	// ------
-	// Darwin
-	// ------
 
 	Darwin::Darwin(int rows, int cols) {
 		assert(rows > -1);
@@ -25,7 +25,9 @@ using namespace std;
 
 	void Darwin::add_creature(Creature& c, int row, int col){
 		assert(row > -1);
+		assert(row < this->rows);
 		assert(col > -1);
+		assert(col < this->cols);
 		
 		this->creatures[c.get_index()] = c;
 		this->board[row][col] = c.get_index();
@@ -53,7 +55,9 @@ using namespace std;
 
 	const Creature& Darwin::at(int row, int col) {
 		assert(row > -1);
+		assert(row < this->rows);
 		assert(col > -1);
+		assert(col < this->cols);
 
 		if(this->board[row][col]>-1)
 			return this->creatures[this->board[row][col]];
@@ -67,8 +71,11 @@ using namespace std;
 
 	bool Darwin::is_wall(int r, int c, int d) {
 		assert(r > -1);
+		assert(r < this->rows);
 		assert(c > -1);
+		assert(c < this->cols);
 		assert(d > -1);
+		assert(d < 4);
 
 		switch(d){
 			case 1:
@@ -99,8 +106,11 @@ using namespace std;
 
 	bool Darwin::is_empty(int r, int c, int d){
 		assert(r > -1);
+		assert(r < this->rows);
 		assert(c > -1);
+		assert(c < this->cols);
 		assert(d > -1);
+		assert(d < 4);
 
 		if(!is_wall(r, c, d)) {
 			switch(d) {
@@ -131,8 +141,11 @@ using namespace std;
 
 	bool Darwin::is_enemy(Creature& creature, int r, int c, int d){
 		assert(r > -1);
+		assert(r < this->rows);
 		assert(c > -1);
+		assert(c < this->cols);
 		assert(d > -1);
+		assert(d < 4);
 
 		if(!is_empty(r, c, d)&&!is_wall(r, c, d)) {
 			switch(d) {
@@ -155,8 +168,11 @@ using namespace std;
 
 	Creature& Darwin::get_enemy(Creature& creature, int r, int c, int d) {
 		assert(r > -1);
+		assert(r < this->rows);
 		assert(c > -1);
+		assert(c < this->cols);
 		assert(d > -1);
+		assert(d < 4);
 
 		switch(d) {
 			case 1: 
@@ -177,9 +193,13 @@ using namespace std;
 
 	void Darwin::update_board(Creature& creature, int oldR, int oldC, int newR, int newC) {
 		assert(oldR > -1);
+		assert(oldR < this->rows);
 		assert(oldC > -1);
+		assert(oldC < this->cols);
 		assert(newR > -1); 
+		assert(newR < this->rows); 
 		assert(newC > -1);
+		assert(newC < this->cols);
 
 		board[oldR][oldC] = -1;
 		board[newR][newC] = creature.get_index();
@@ -205,7 +225,7 @@ using namespace std;
 
 	void Darwin::print_board(ostream & w, int turn) {
 		assert(turn > -1);
-		
+
 		w << "Turn = " << turn << "." <<endl;
 		w << "  ";
 		for(int k = 0; k < this->cols; ++k) {
