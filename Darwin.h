@@ -16,6 +16,9 @@ class Darwin {
 	private:
 		friend class DarwinTest;
 		FRIEND_TEST(DarwinTest, add_creature_1);
+		FRIEND_TEST(DarwinTest, add_creature_2);
+		FRIEND_TEST(DarwinTest, add_creature_3);
+
 		int rows;
 		int cols;
 		vector<Creature> creatures;
@@ -27,6 +30,8 @@ class Darwin {
 		Darwin(int, int);
 
 		void add_creature(Creature&, int, int);
+
+		// int* pointer();
 
 		vector<vector<int>>::iterator begin();
 
@@ -46,7 +51,7 @@ class Darwin {
 
 		void play();
 
-		void print_board(int);
+		void print_board(ostream&, int);
 };
 
 #endif

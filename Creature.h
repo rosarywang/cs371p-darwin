@@ -4,6 +4,7 @@
 using namespace std;
 #include "Species.h"
 #include "Darwin.h"
+#include "gtest/gtest.h"
 #include <cstdlib>
 
 class Darwin;
@@ -21,6 +22,8 @@ private:
 	int index;
 
 public:
+	friend class CreatureTest;
+	FRIEND_TEST(CreatureTest, reset_moved_1);
 	Creature();
 
 	Creature(Species, int, int, int, int, int, int);

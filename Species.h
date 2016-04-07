@@ -1,10 +1,12 @@
 #ifndef Species_h
 #define Species_h
+// #include "gtest/gtest.h"
 
 using namespace std;
 
 class Species {
 private:
+	// friend class DarwinSpeciesTest;
 	// FRIEND_TEST(DarwinSpecies, add_instruction_1);
 	// FRIEND_TEST(DarwinSpecies, add_instruction_2);
 	// FRIEND_TEST(DarwinSpecies, add_instruction_3);

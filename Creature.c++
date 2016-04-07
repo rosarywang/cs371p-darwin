@@ -37,7 +37,7 @@
 	//instructions function
 	void Creature::read_instruction(Darwin* darwin){
 		if(!this->moved) {
-			int n = this->sp[this->pc]/10;			
+			int n = this->sp[this->pc]/10;	
 			switch(this->sp[this->pc]%10){
 				case 0:
 					hop(darwin);

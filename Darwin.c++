@@ -17,6 +17,10 @@ using namespace std;
 		this->board[row][col] = c.get_index();
 	}
 
+	// int* Darwin::pointer() {
+	// 	return this->board;
+	// }
+
 	vector<vector<int>>::iterator Darwin::begin() {
 		return this->board.begin();
 	}
@@ -123,27 +127,27 @@ using namespace std;
 		}
 	}
 
-	void Darwin::print_board(int turn) {
-		cout << "Turn = " << turn << "." <<endl;
-		cout << "  ";
+	void Darwin::print_board(ostream & w, int turn) {
+		w << "Turn = " << turn << "." <<endl;
+		w << "  ";
 		for(int k = 0; k < this->cols; ++k) {
-			cout << k;
+			w << k%10;
 		}
-		cout << endl;
+		w << endl;
 		char c;
 		for (int i = 0; i < this->rows; ++i) {
-			cout << i << " ";
+			w << i%10 << " ";
 			for (int j = 0; j < this->cols; ++j) {
 				if(this->board[i][j] == -1) 
-					cout << ".";
+					w << ".";
 				else {
 					c = this->creatures[this->board[i][j]].get_species();
 					this->creatures[this->board[i][j]].reset_moved();
-					cout << c;
+					w << c;
 				}
 			}
-			cout << endl;
+			w << endl;
 		}
-		cout << endl;
+		w << endl;
 	}
 
