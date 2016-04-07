@@ -1,9 +1,13 @@
-using namespace std;
-
 #include "Darwin.h"
+
+using namespace std;
 
 	Darwin::Darwin(){
 	}
+
+	// ------
+	// Darwin
+	// ------
 
 	Darwin::Darwin(int rows, int cols) {
 		this->rows = rows;
@@ -12,22 +16,42 @@ using namespace std;
 		this->board.resize(rows, vector<int>(cols , -1));
 	}
 
+	// ------------
+	// add_creature
+	// ------------
+
 	void Darwin::add_creature(Creature& c, int row, int col){
 		this->creatures[c.get_index()] = c;
 		this->board[row][col] = c.get_index();
 	}
 
+	// -----
+	// begin
+	// -----
+
 	vector<vector<int>>::iterator Darwin::begin() {
 		return this->board.begin();
 	}
+
+	// ---
+	// end
+	// ---
 
 	vector<vector<int>>::iterator Darwin::end() {
 		return this->board.end();
 	}
 
+	// --
+	// at
+	// --
+
 	const Creature& Darwin::at(int row, int col) {
 		return this->creatures[this->board[row][col]];
 	}
+
+	// -------
+	// is_wall
+	// -------
 
 	bool Darwin::is_wall(int r, int c, int d) {
 		switch(d){
@@ -53,6 +77,10 @@ using namespace std;
 		return false;
 	}
 
+	// --------
+	// is_empty
+	// --------
+
 	bool Darwin::is_empty(int r, int c, int d){
 		if(!is_wall(r, c, d)) {
 			switch(d) {
@@ -77,6 +105,10 @@ using namespace std;
 		return true;
 	}
 
+	// --------
+	// is_enemy
+	// --------
+
 	bool Darwin::is_enemy(Creature& creature, int r, int c, int d){
 		if(!is_empty(r, c, d)&&!is_wall(r, c, d)) {
 			switch(d) {
@@ -93,6 +125,10 @@ using namespace std;
 		return false;
 	}
 
+	// ---------
+	// get_enemy
+	// ---------
+
 	Creature& Darwin::get_enemy(Creature& creature, int r, int c, int d) {
 		switch(d) {
 			case 1: 
@@ -107,10 +143,18 @@ using namespace std;
 		return creature;
 	}
 
+	// ------------
+	// update_board
+	// ------------
+
 	void Darwin::update_board(Creature& creature, int oldR, int oldC, int newR, int newC) {
 		board[oldR][oldC] = -1;
 		board[newR][newC] = creature.get_index();
 	}
+
+	// ----
+	// play
+	// ----
 
 	void Darwin::play() {
 		for (int i = 0; i < this->rows; ++i) {
@@ -121,6 +165,10 @@ using namespace std;
 			}
 		}
 	}
+
+	// -----------
+	// print_board
+	// -----------
 
 	void Darwin::print_board(ostream & w, int turn) {
 		w << "Turn = " << turn << "." <<endl;
