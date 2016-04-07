@@ -1,19 +1,30 @@
 #ifndef Species_h
 #define Species_h
-// #include "gtest/gtest.h"
+#include "gtest/gtest.h"
 
 using namespace std;
 
 class Species {
 private:
+	friend class DarwinSpecies;
+	FRIEND_TEST(DarwinSpecies, species_default_1);
+	FRIEND_TEST(DarwinSpecies, species_default_2);
+	FRIEND_TEST(DarwinSpecies, species_default_3);
+	FRIEND_TEST(DarwinSpecies, species_copy_1);
+	FRIEND_TEST(DarwinSpecies, species_copy_2);
+	FRIEND_TEST(DarwinSpecies, species_copy_3);
+	FRIEND_TEST(DarwinSpecies, get_initial_1);
+	FRIEND_TEST(DarwinSpecies, get_initial_2);
+	FRIEND_TEST(DarwinSpecies, get_initial_3);
+	FRIEND_TEST(DarwinSpecies, add_instruction_1);
+	FRIEND_TEST(DarwinSpecies, add_instruction_2);
+	FRIEND_TEST(DarwinSpecies, add_instruction_3);
 	int instructions[15];
 	int index;
 	char initial;
 
 public:
-	Species() {}
-
-	Species(char c){
+	Species(char c = '\0'){
 		this->index = 0;
 		this->initial = c;
 	}

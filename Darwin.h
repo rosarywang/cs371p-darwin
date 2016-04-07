@@ -21,6 +21,8 @@ class Darwin {
 		FRIEND_TEST(DarwinCreature, hop_1);
 		FRIEND_TEST(DarwinCreature, hop_2);
 		FRIEND_TEST(DarwinCreature, hop_3);
+		FRIEND_TEST(DarwinCreature, infect_2);
+		FRIEND_TEST(DarwinCreature, infect_3);
 
 		int rows;
 		int cols;
@@ -33,8 +35,6 @@ class Darwin {
 		Darwin(int, int);
 
 		void add_creature(Creature&, int, int);
-
-		// int* pointer();
 
 		vector<vector<int>>::iterator begin();
 

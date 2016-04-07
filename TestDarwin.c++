@@ -20,26 +20,70 @@ using namespace std;
 // Species
 // -------
 
+// -------------
+// Species(char)
+// -------------
+
+TEST(DarwinSpecies, species_default_1) {
+    Species s = Species();
+    ASSERT_EQ('\0', s.initial);
+}
+
+TEST(DarwinSpecies, species_default_2) {
+    Species s = Species('c');
+    ASSERT_EQ('c', s.initial);
+}
+
+TEST(DarwinSpecies, species_default_3) {
+    Species s = Species('c');
+    ASSERT_EQ(0, s.index);
+}
+
+// -----------------------
+// Species(const Species&)
+// -----------------------
+
+TEST(DarwinSpecies, species_copy_1) {
+    Species s = Species('s');
+    Species c = Species('c');
+    s = Species(c);
+    ASSERT_EQ('c', s.initial);
+}
+
+TEST(DarwinSpecies, species_copy_2) {
+    Species s = Species();
+    Species c = Species('c');
+    s = Species(c);
+    ASSERT_EQ('c', s.initial);
+}
+
+TEST(DarwinSpecies, species_copy_3) {
+    Species s = Species('s');
+    s.instructions[0] = 1;
+    Species c = Species('c');
+    c.instructions[0] = 2;
+    s = Species(c);
+    ASSERT_EQ('c', s.initial);
+    ASSERT_EQ(2, s.instructions[0]);
+}
+
 // -----------
 // get_initial
 //------------
 
 TEST(DarwinSpecies, get_initial_1) {
     Species s = Species('a');
-    char c = s.get_initial();
-    ASSERT_EQ('a', c);
+    ASSERT_EQ('a', s.initial);
 }
 
 TEST(DarwinSpecies, get_initial_2) {
     Species s = Species('X');
-    char c = s.get_initial();
-    ASSERT_EQ('X', c);
+    ASSERT_EQ('X', s.initial);
 }
 
 TEST(DarwinSpecies, get_initial_3) {
     Species s = Species('j');
-    char c = s.get_initial();
-    ASSERT_EQ('j', c);
+    ASSERT_EQ('j', s.initial);
 }
 
 // -----------
@@ -110,24 +154,101 @@ TEST(DarwinSpecies, operator_index_3) {
 TEST(DarwinSpecies, add_instruction_1) {
     Species s = Species('a');
     s.add_instruction(0, 0);
-    ASSERT_EQ(s[0], 0);
+    s.add_instruction(3, 0);
+    s.add_instruction(8, 0);
+    ASSERT_EQ(s.instructions[0], 0);
+    ASSERT_EQ(s.instructions[1], 3);
+    ASSERT_EQ(s.instructions[2], 8);
 }
 
 TEST(DarwinSpecies, add_instruction_2) {
     Species s = Species('a');
     s.add_instruction(7, 9);
-    ASSERT_EQ(s[0], 97);
+    s.add_instruction(5, 11);
+    s.add_instruction(3, 0);
+    s.add_instruction(8, 10);
+    ASSERT_EQ(s.instructions[0], 97);
+    ASSERT_EQ(s.instructions[1], 115);
+    ASSERT_EQ(s.instructions[2], 3);
+    ASSERT_EQ(s.instructions[3], 108);
 }
 
 TEST(DarwinSpecies, add_instruction_3) {
     Species s = Species('a');
+    s.add_instruction(3, 0);
+    s.add_instruction(7, 3);
     s.add_instruction(8, 0);
-    ASSERT_EQ(s[0], 8);
+    ASSERT_EQ(s.instructions[0], 3);
+    ASSERT_EQ(s.instructions[1], 37);
+    ASSERT_EQ(s.instructions[2], 8);
 }
 
 // --------
 // Creature
 // --------
+
+// ----------
+// Creature()
+// ----------
+
+TEST(DarwinCreature, creature_default_1) {
+    Creature c = Creature();
+    ASSERT_TRUE(c.moved);
+}
+
+TEST(DarwinCreature, creature_default_2) {
+    Creature c = Creature();
+    ASSERT_EQ(-1, c.index);
+}
+
+TEST(DarwinCreature, creature_default_3) {
+    Creature x = Creature();
+    ASSERT_TRUE(x.moved);
+    ASSERT_EQ(-1, x.index);
+}
+
+// --------------------
+// Creature(parameters)
+// --------------------
+
+TEST(DarwinCreature, creature_parameters_1) {
+    Species s = Species();
+    Creature c = Creature(s, 0, 0, 0, 3, 5, 0);
+    ASSERT_EQ(0, c.row);
+    ASSERT_EQ(0, c.col);
+    ASSERT_EQ(0, c.dir);
+    ASSERT_EQ(0, c.pc);
+    ASSERT_FALSE(c.moved);
+    ASSERT_EQ(3, c.max_row);
+    ASSERT_EQ(5, c.max_col);
+    ASSERT_EQ(0, c.index);
+}
+
+TEST(DarwinCreature, creature_parameters_2) {
+    Species s = Species();
+    Creature c = Creature(s, 1, 2, 3, 3, 5, 1);
+    ASSERT_EQ(1, c.row);
+    ASSERT_EQ(2, c.col);
+    ASSERT_EQ(3, c.dir);
+    ASSERT_EQ(0, c.pc);
+    ASSERT_FALSE(c.moved);
+    ASSERT_EQ(3, c.max_row);
+    ASSERT_EQ(5, c.max_col);
+    ASSERT_EQ(1, c.index);
+}
+
+TEST(DarwinCreature, creature_parameters_3) {
+    Species s = Species();
+    Creature c = Creature(s, 2, 4, 2, 3, 5, 0);
+    ASSERT_EQ(2, c.row);
+    ASSERT_EQ(4, c.col);
+    ASSERT_EQ(2, c.dir);
+    ASSERT_EQ(0, c.pc);
+    ASSERT_FALSE(c.moved);
+    ASSERT_EQ(3, c.max_row);
+    ASSERT_EQ(5, c.max_col);
+    ASSERT_EQ(0, c.index);
+}
 
 // ---------
 // get_index
@@ -209,13 +330,13 @@ TEST(DarwinCreature, check_same_species_3) {
 // reset_moved
 // -----------
 
-TEST(CreatureTest, reset_moved_1) {
+TEST(DarwinCreature, reset_moved_1) {
     Darwin darwin = Darwin(5,5);
     Darwin* d = &darwin;
     Species food = Species('f');
     food.add_instruction(1, 0);
     food.add_instruction(8, 0);
-    Creature f1 = Creature(food, 0, 0, 1, 8, 8, 0);
+    Creature f1 = Creature(food, 0, 0, 1, 5, 5, 0);
     darwin.add_creature(f1, 0, 0);
     f1.read_instruction(d);
     ASSERT_TRUE(f1.moved);
@@ -223,14 +344,14 @@ TEST(CreatureTest, reset_moved_1) {
     ASSERT_FALSE(f1.moved);
 }
 
-TEST(CreatureTest, reset_moved_2) {
+TEST(DarwinCreature, reset_moved_2) {
     Darwin darwin = Darwin(10,5);
     Darwin* d = &darwin;
     Species food = Species('f');
     food.add_instruction(1, 0);
     food.add_instruction(8, 0);
-    Creature f1 = Creature(food, 0, 0, 1, 8, 8, 0);
-    Creature f2 = Creature(food, 1, 1, 2, 8, 8, 1);
+    Creature f1 = Creature(food, 0, 0, 1, 10, 5, 0);
+    Creature f2 = Creature(food, 1, 1, 2, 10, 5, 1);
     darwin.add_creature(f1, 0, 0);
     darwin.add_creature(f1, 1, 1);
     f1.read_instruction(d);
@@ -242,7 +363,7 @@ TEST(CreatureTest, reset_moved_2) {
     ASSERT_FALSE(f2.moved);
 }
 
-TEST(CreatureTest, reset_moved_3) {
+TEST(DarwinCreature, reset_moved_3) {
     Creature f1 = Creature();
     ASSERT_TRUE(f1.moved);
     f1.reset_moved();
@@ -252,6 +373,70 @@ TEST(CreatureTest, reset_moved_3) {
 // ----------------
 // read_instruction
 // ----------------
+
+TEST(DarwinCreature, read_instruction_1) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    food.add_instruction(1, 0);
+    food.add_instruction(8, 0);
+    Creature f1 = Creature(food, 0, 0, 1, 8, 8, 0);
+    darwin.add_creature(f1, 0, 0);
+    ASSERT_FALSE(f1.moved);
+    f1.read_instruction(d);
+    ASSERT_TRUE(f1.moved);
+    ASSERT_EQ(0, f1.row);
+    ASSERT_EQ(0, f1.col);
+    ASSERT_EQ(0, f1.dir);
+    ASSERT_EQ(8, f1.max_row);
+    ASSERT_EQ(8, f1.max_col);
+    ASSERT_EQ(0, f1.index);
+    ASSERT_EQ(1, f1.pc);
+
+}
+
+TEST(DarwinCreature, read_instruction_2) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    food.add_instruction(0, 0);
+    food.add_instruction(8, 0);
+    Creature f1 = Creature(food, 1, 1, 1, 8, 8, 0);
+    darwin.add_creature(f1, 1, 1);
+    ASSERT_FALSE(f1.moved);
+    f1.read_instruction(d);
+    ASSERT_TRUE(f1.moved);
+    ASSERT_EQ(0, f1.row);
+    ASSERT_EQ(1, f1.col);
+    ASSERT_EQ(1, f1.dir);
+    ASSERT_EQ(8, f1.max_row);
+    ASSERT_EQ(8, f1.max_col);
+    ASSERT_EQ(0, f1.index);
+    ASSERT_EQ(1, f1.pc);
+}
+
+TEST(DarwinCreature, read_instruction_3) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    Species good = Species('g');
+    food.add_instruction(3, 0);
+    food.add_instruction(8, 0);
+    Creature f1 = Creature(food, 1, 1, 1, 8, 8, 0);
+    Creature g1 = Creature(good, 0, 1, 1, 8, 8, 1);
+    darwin.add_creature(f1, 1, 1);
+    darwin.add_creature(g1, 0, 1);
+    ASSERT_FALSE(f1.moved);
+    f1.read_instruction(d);
+    ASSERT_TRUE(f1.moved);
+    ASSERT_EQ(1, f1.row);
+    ASSERT_EQ(1, f1.col);
+    ASSERT_EQ(1, f1.dir);
+    ASSERT_EQ(8, f1.max_row);
+    ASSERT_EQ(8, f1.max_col);
+    ASSERT_EQ(0, f1.index);
+    ASSERT_EQ(1, f1.pc);
+}
 
 // ---
 // hop
@@ -323,37 +508,349 @@ TEST(DarwinCreature, hop_3) {
 // left
 // ----
 
+TEST(DarwinCreature, left_1) {
+    Species food = Species('f');
+    Creature f1 = Creature(food, 0, 0, 1, 8, 8, 0);
+    ASSERT_FALSE(f1.moved);
+    f1.left();
+    ASSERT_TRUE(f1.moved);
+    ASSERT_EQ(0, f1.row);
+    ASSERT_EQ(0, f1.col);
+    ASSERT_EQ(0, f1.dir);
+    ASSERT_EQ(8, f1.max_row);
+    ASSERT_EQ(8, f1.max_col);
+    ASSERT_EQ(0, f1.index);
+    ASSERT_EQ(1, f1.pc);
+}
+
+TEST(DarwinCreature, left_2) {
+    Species food = Species('f');
+    Creature f1 = Creature(food, 0, 0, 1, 8, 8, 0);
+    f1.left();
+    f1.left();
+    ASSERT_EQ(3, f1.dir);
+}
+
+TEST(DarwinCreature, left_3) {
+    Species food = Species('f');
+    Creature f1 = Creature(food, 0, 0, 1, 8, 8, 0);
+    f1.left();
+    f1.left();
+    f1.left();
+    ASSERT_EQ(2, f1.dir);
+}
 
 // -----
 // right
 // -----
 
+TEST(DarwinCreature, right_1) {
+    Species food = Species('f');
+    Creature f1 = Creature(food, 0, 0, 1, 8, 8, 0);
+    ASSERT_FALSE(f1.moved);
+    f1.right();
+    ASSERT_TRUE(f1.moved);
+    ASSERT_EQ(0, f1.row);
+    ASSERT_EQ(0, f1.col);
+    ASSERT_EQ(2, f1.dir);
+    ASSERT_EQ(8, f1.max_row);
+    ASSERT_EQ(8, f1.max_col);
+    ASSERT_EQ(0, f1.index);
+    ASSERT_EQ(1, f1.pc);
+}
+
+TEST(DarwinCreature, right_2) {
+    Species food = Species('f');
+    Creature f1 = Creature(food, 0, 0, 1, 8, 8, 0);
+    f1.right();
+    f1.right();
+    ASSERT_EQ(3, f1.dir);
+}
+
+TEST(DarwinCreature, right_3) {
+    Species food = Species('f');
+    Creature f1 = Creature(food, 0, 0, 1, 8, 8, 0);
+    f1.right();
+    f1.right();
+    f1.right();
+    ASSERT_EQ(0, f1.dir);
+}
+
 // ------
 // infect
 // ------
 
+TEST(DarwinCreature, infect_1) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    Species good = Species('g');
+    Creature f1 = Creature(food, 1, 1, 1, 8, 8, 0);
+    Creature f2 = Creature(good, 0, 1, 1, 8, 8, 1);
+    darwin.add_creature(f1, 1, 1);
+    darwin.add_creature(f2, 0, 1);
+    ASSERT_FALSE(f1.moved);
+    ASSERT_FALSE(f1.check_same_species(f2));
+    f1.infect(d);
+    ASSERT_TRUE(f1.moved);
+    ASSERT_EQ(1, f1.row);
+    ASSERT_EQ(1, f1.col);
+    ASSERT_EQ(1, f1.dir);
+    ASSERT_EQ(8, f1.max_row);
+    ASSERT_EQ(8, f1.max_col);
+    ASSERT_EQ(0, f1.index);
+    ASSERT_EQ(1, f1.pc);
+    ASSERT_EQ(0, f2.row);
+    ASSERT_EQ(1, f2.col);
+    ASSERT_EQ(1, f2.dir);
+    ASSERT_EQ(8, f2.max_row);
+    ASSERT_EQ(8, f2.max_col);
+    ASSERT_EQ(1, f2.index);
+    ASSERT_EQ(0, f2.pc);
+}
+
+TEST(DarwinCreature, infect_2) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    food.add_instruction(0, 0);
+    Species good = Species('g');
+    good.add_instruction(3, 0);
+    Creature f1 = Creature(food, 5, 5, 3, 8, 8, 0);
+    Creature f2 = Creature(good, 6, 5, 1, 8, 8, 1);
+    darwin.add_creature(f1, 5, 5);
+    darwin.add_creature(f2, 6, 5);
+    ASSERT_NE(f1.sp[0], f2.sp[0]);
+    f1.infect(d);
+    ASSERT_EQ(f1.sp[0], (d->creatures[d->board[6][5]]).sp[0]);
+}
+
+TEST(DarwinCreature, infect_3) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    food.add_instruction(0, 0);
+    Species good = Species('g');
+    good.add_instruction(3, 0);
+    Creature f1 = Creature(food, 5, 5, 3, 8, 8, 0);
+    Creature f2 = Creature(good, 6, 5, 1, 8, 8, 1);
+    darwin.add_creature(f1, 5, 5);
+    darwin.add_creature(f2, 6, 5);
+    ASSERT_FALSE(f1.check_same_species(f2));
+    f1.infect(d);
+    ASSERT_TRUE(f1.check_same_species(d->creatures[d->board[6][5]]));
+}
+
 // --------
-// if empty
+// if_empty
 // --------
+
+TEST(DarwinCreature, if_empty_1) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    Creature f1 = Creature(food, 1, 1, 1, 8, 8, 0);
+    darwin.add_creature(f1, 1, 1);
+    ASSERT_EQ(0, f1.pc);
+    f1.moved = true;
+    f1.if_empty(d, 2);
+    ASSERT_EQ(2, f1.pc);
+}
+
+TEST(DarwinCreature, if_empty_2) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    Creature f1 = Creature(food, 1, 1, 1, 8, 8, 0);
+    Creature f2 = Creature(food, 0, 1, 1, 8, 8, 0);
+    darwin.add_creature(f1, 1, 1);
+    darwin.add_creature(f2, 0, 1);
+    ASSERT_EQ(0, f1.pc);
+    f1.moved = true;
+    f1.if_empty(d, 10);
+    ASSERT_EQ(1, f1.pc);
+}
+
+TEST(DarwinCreature, if_empty_3) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    Creature f1 = Creature(food, 1, 1, 1, 8, 8, 0);
+    darwin.add_creature(f1, 1, 1);
+    ASSERT_EQ(0, f1.pc);
+    f1.moved = true;
+    f1.if_empty(d, 10);
+    ASSERT_EQ(10, f1.pc);
+}
 
 // -------
 // if_wall
 // -------
 
+TEST(DarwinCreature, if_wall_1) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    Creature f1 = Creature(food, 1, 1, 1, 8, 8, 0);
+    darwin.add_creature(f1, 1, 1);
+    ASSERT_EQ(0, f1.pc);
+    f1.moved = true;
+    f1.if_wall(d, 2);
+    ASSERT_EQ(1, f1.pc);
+}
+
+TEST(DarwinCreature, if_wall_2) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    Creature f1 = Creature(food, 1, 1, 1, 8, 8, 0);
+    Creature f2 = Creature(food, 0, 1, 1, 8, 8, 0);
+    darwin.add_creature(f1, 1, 1);
+    darwin.add_creature(f2, 0, 1);
+    ASSERT_EQ(0, f1.pc);
+    f1.moved = true;
+    f1.if_wall(d, 10);
+    ASSERT_EQ(1, f1.pc);
+}
+
+TEST(DarwinCreature, if_wall_3) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    Creature f1 = Creature(food, 0, 1, 1, 8, 8, 0);
+    darwin.add_creature(f1, 0, 1);
+    ASSERT_EQ(0, f1.pc);
+    f1.moved = true;
+    f1.if_wall(d, 10);
+    ASSERT_EQ(10, f1.pc);
+}
+
 // ---------
 // if_random
 // ---------
+
+TEST(DarwinCreature, if_random_1) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    Creature f1 = Creature(food, 1, 1, 1, 8, 8, 0);
+    darwin.add_creature(f1, 1, 1);
+    ASSERT_EQ(0, f1.pc);
+    f1.moved = true;
+    f1.if_random(d, 2);
+    ASSERT_NE(0, f1.pc);
+}
+
+TEST(DarwinCreature, if_random_2) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    Creature f1 = Creature(food, 1, 1, 1, 8, 8, 0);
+    darwin.add_creature(f1, 1, 1);
+    ASSERT_EQ(0, f1.pc);
+    f1.moved = true;
+    f1.if_random(d, 10);
+    ASSERT_LT(0, f1.pc);
+}
+
+TEST(DarwinCreature, if_random_3) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    Creature f1 = Creature(food, 0, 1, 1, 8, 8, 0);
+    darwin.add_creature(f1, 0, 1);
+    ASSERT_EQ(0, f1.pc);
+    f1.moved = true;
+    f1.if_random(d, 10);
+    ASSERT_LE(1, f1.pc);
+}
 
 // --------
 // if_enemy
 // --------
 
+TEST(DarwinCreature, if_enemy_1) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    Creature f1 = Creature(food, 1, 1, 1, 8, 8, 0);
+    darwin.add_creature(f1, 1, 1);
+    ASSERT_EQ(0, f1.pc);
+    f1.moved = true;
+    f1.if_enemy(d, 2);
+    ASSERT_EQ(1, f1.pc);
+}
+
+TEST(DarwinCreature, if_enemy_2) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    Creature f1 = Creature(food, 1, 1, 1, 8, 8, 0);
+    Creature f2 = Creature(food, 0, 1, 1, 8, 8, 0);
+    darwin.add_creature(f1, 1, 1);
+    darwin.add_creature(f2, 0, 1);
+    ASSERT_EQ(0, f1.pc);
+    f1.moved = true;
+    f1.if_enemy(d, 10);
+    ASSERT_EQ(1, f1.pc);
+}
+
+TEST(DarwinCreature, if_enemy_3) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    Species good = Species('g');
+    Creature f1 = Creature(food, 1, 1, 1, 8, 8, 0);
+    Creature g1 = Creature(good, 0, 1, 1, 8, 8, 0);
+    darwin.add_creature(f1, 1, 1);
+    darwin.add_creature(g1, 0, 1);
+    ASSERT_EQ(0, f1.pc);
+    f1.moved = true;
+    f1.if_enemy(d, 10);
+    ASSERT_EQ(10, f1.pc);
+}
+
 // --
 // go
 // --
 
+TEST(DarwinCreature, go_1) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    Creature f1 = Creature(food, 1, 1, 1, 8, 8, 0);
+    darwin.add_creature(f1, 1, 1);
+    ASSERT_EQ(0, f1.pc);
+    f1.moved = true;
+    f1.go(d, 20);
+    ASSERT_EQ(20, f1.pc);
+}
 
+TEST(DarwinCreature, go_2) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    Creature f1 = Creature(food, 1, 1, 1, 8, 8, 0);
+    Creature f2 = Creature(food, 0, 1, 1, 8, 8, 0);
+    darwin.add_creature(f1, 1, 1);
+    darwin.add_creature(f2, 0, 1);
+    ASSERT_EQ(0, f1.pc);
+    f1.moved = true;
+    f1.go(d, 10);
+    ASSERT_EQ(10, f1.pc);
+}
 
+TEST(DarwinCreature, go_3) {
+    Darwin darwin = Darwin(8,8);
+    Darwin* d = &darwin;
+    Species food = Species('f');
+    Creature f1 = Creature(food, 1, 1, 1, 8, 8, 0);
+    darwin.add_creature(f1, 1, 1);
+    ASSERT_EQ(0, f1.pc);
+    f1.moved = true;
+    f1.go(d, 10);
+    ASSERT_EQ(10, f1.pc);
+}
 
 // ------
 // Darwin
