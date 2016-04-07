@@ -26,7 +26,12 @@ class Darwin {
 		FRIEND_TEST(DarwinTest, at_1);
 		FRIEND_TEST(DarwinTest, at_2);
 		FRIEND_TEST(DarwinTest, at_3);
+		FRIEND_TEST(DarwinTest, play_1);
+		FRIEND_TEST(DarwinTest, play_2);
+		FRIEND_TEST(DarwinTest, play_3);
 		FRIEND_TEST(DarwinTest, update_board_1);
+		FRIEND_TEST(DarwinTest, update_board_2);
+		FRIEND_TEST(DarwinTest, update_board_3);
 		FRIEND_TEST(DarwinCreature, hop_1);
 		FRIEND_TEST(DarwinCreature, hop_2);
 		FRIEND_TEST(DarwinCreature, hop_3);

@@ -971,9 +971,9 @@ TEST(DarwinTest, at_1) {
 	darwin.add_creature(a2, 3, 0);
 	darwin.add_creature(a3, 1, 3);
 
-	// ASSERT_EQ(darwin.at(2, 1), a1);
-	// ASSERT_EQ(darwin.at(3, 0), a2);
-	// ASSERT_EQ(darwin.at(1, 3), a3);
+	// ASSERT_EQ(darwin.at(2, 1).sp, 'a');
+	// ASSERT_EQ(darwin.at(3, 0).sp, darwin.creatures[1].get_species());
+	// ASSERT_EQ(darwin.at(1, 3).sp, darwin.creatures[2].get_species());
 }
 
 TEST(DarwinTest, at_2) {
@@ -1187,23 +1187,65 @@ TEST(DarwinTest, is_enemy_4) {
 // get_enemy
 // ---------
 
-// TEST(DarwinTest, get_enemy_1) {
-// 	Species cat = Species('c');
-// 	Species dog = Species('d');
+TEST(DarwinTest, get_enemy_1) {
+	Species cat = Species('c');
+	Species dog = Species('d');
 
-// 	Creature d1 = Creature(dog, 3, 2, 3, 5, 5, 0);
-// 	Creature c1 = Creature(cat, 2, 2, 2, 5, 5, 1);
+	Creature d1 = Creature(dog, 3, 2, 3, 5, 5, 0);
+	Creature c1 = Creature(cat, 2, 2, 2, 5, 5, 1);
 
-// 	Darwin darwin = Darwin(5, 5);
-// 	darwin.add_creature(d1, 3, 2);
-// 	darwin.add_creature(c1, 2, 2);
+	Darwin darwin = Darwin(5, 5);
+	darwin.add_creature(d1, 3, 2);
+	darwin.add_creature(c1, 2, 2);
 
-// 	Creature& enemy = darwin.get_enemy(d1, 3, 2, 3);
-// 	enemy.sp = Species(this->sp);
+	Creature& enemy = darwin.get_enemy(d1, 3, 2, 3);
 
-// 	ASSERT_EQ(enemy->sp.get_initial(), 'c');
-// }
+}
 
+TEST(DarwinTest, get_enemy_2) {
+	Species food = Species('f');
+	Species hop = Species('h');
+	Species rover = Species('r');
+
+	Creature f = Creature(food, 1, 4, 0, 5, 7, 0);
+	Creature h = Creature(hop, 1, 2, 2, 5, 7, 1);
+	Creature r = Creature(rover, 1, 3, 2, 5, 7, 2);
+
+	Darwin darwin = Darwin(5, 7);
+	darwin.add_creature(f, 1, 4);
+	darwin.add_creature(h, 1, 2);
+	darwin.add_creature(r, 1, 3);
+
+	Creature& e1 = darwin.get_enemy(r, 1, 3, 2);
+	Creature& e2 = darwin.get_enemy(r, 1, 3, 0);
+}
+
+TEST(DarwinTest, get_enemy_2) {
+	Species ape = Species('a');
+	Species bee = Species('b');
+
+	Creature a1 = Creature(ape, 0, 0, 0, 2, 2, 0);
+	Creature a2 = Creature(ape, 1, 1, 1, 2, 2, 1);
+	Creature b1 = Creature(bee, 0, 1, 0, 2, 2, 2);
+	Creature b2 = Creature(bee, 1, 0, 1, 2, 2, 3);
+
+	Darwin darwin = Darwin(2, 2);
+	darwin.add_creature(a1, 0, 0);
+	darwin.add_creature(a2, 1, 1);
+	darwin.add_creature(b1, 0, 1);
+	darwin.add_creature(b2, 1, 0);
+
+	Creature& e1 = darwin.get_enemy(b1, 0, 1, 3);
+	Creature& e2 = darwin.get_enemy(b1, 0, 1, 0);
+	Creature& e3 = darwin.get_enemy(b2, 1, 0, 2);
+	Creature& e4 = darwin.get_enemy(b2, 1, 0, 1);
+
+	Creature& e5 = darwin.get_enemy(a1, 0, 0, 3);
+	Creature& e6 = darwin.get_enemy(a1, 0, 0, 2);
+	Creature& e7 = darwin.get_enemy(a2, 1, 1, 0);
+	Creature& e8 = darwin.get_enemy(a2, 1, 1, 1);
+
+}
 // ------------
 // update_board
 // ------------
@@ -1236,57 +1278,177 @@ TEST(DarwinTest, update_board_1) {
     r.read_instruction(d);
 
     ASSERT_EQ(darwin.board[0][1], 0);
-    // ASSERT_EQ(darwin.creatures[0], 'r');
+}
+
+TEST(DarwinTest, update_board_2) {
+	Species hopper = Species('h');
+	hopper.add_instruction(0, 0);
+    hopper.add_instruction(8, 0);
+
+	Species rover = Species('r');
+	rover.add_instruction(7, 9);
+    rover.add_instruction(4, 7);
+    rover.add_instruction(6, 5);
+    rover.add_instruction(1, 0);
+    rover.add_instruction(8, 0);
+    rover.add_instruction(2, 0);
+    rover.add_instruction(8, 0);
+    rover.add_instruction(0, 0);
+    rover.add_instruction(8, 0);
+    rover.add_instruction(3, 0);
+    rover.add_instruction(8, 0);
+
+    Creature h = Creature(hopper, 3, 2, 2, 6, 6, 0);
+    Creature r = Creature(rover, 3, 4, 2, 6, 6, 1);
+
+    Darwin darwin = Darwin(6, 6);
+    Darwin* d = &darwin;
+    darwin.add_creature(h, 3, 2);
+    darwin.add_creature(r, 3, 4);
+    h.read_instruction(d);
+	ASSERT_EQ(darwin.board[3][3], 0);
+
+    r.read_instruction(d);
+    ASSERT_EQ(darwin.board[3][5], 1);
+}
+
+TEST(DarwinTest, update_board_3) {
+	Species hopper = Species('h');
+	hopper.add_instruction(0, 0);
+    hopper.add_instruction(8, 0);
+
+    Creature h = Creature(hopper, 0, 0, 2, 1, 3, 0);
+
+    Darwin darwin = Darwin(1, 3);
+    Darwin* d = &darwin;
+    darwin.add_creature(h, 0, 0);
+
+    ASSERT_EQ(darwin.board[0][0], 0);
+
+    h.read_instruction(d);
+	ASSERT_EQ(darwin.board[0][1], 0);
 }
 
 // ----
 // play
 // ----
+TEST(DarwinTest, play_1) {
+	Species hopper = Species('h');
+	hopper.add_instruction(0, 0);
+    hopper.add_instruction(8, 0);
+
+    Creature h = Creature(hopper, 0, 0, 2, 1, 3, 0);
+
+    Darwin darwin = Darwin(1, 3);
+    darwin.add_creature(h, 0, 0);
+
+    darwin.play();
+    ASSERT_EQ(darwin.board[0][1], 0);
+}
+
+TEST(DarwinTest, play_2) {
+	Species hopper = Species('h');
+	hopper.add_instruction(0, 0);
+    hopper.add_instruction(8, 0);
+
+    Creature h1 = Creature(hopper, 3, 1, 1, 5, 3, 0);
+    Creature h2 = Creature(hopper, 4, 2, 0, 5, 3, 1);
+    Creature h3 = Creature(hopper, 1, 0, 2, 5, 3, 2);
+
+    Darwin darwin = Darwin(5, 3);
+    darwin.add_creature(h1, 3, 1);
+    darwin.add_creature(h2, 4, 2);
+    darwin.add_creature(h3, 1, 0);
+
+    darwin.play();
+    ASSERT_EQ(darwin.board[2][1], 0);
+    ASSERT_EQ(darwin.board[4][1], 1);
+    ASSERT_EQ(darwin.board[1][1], 2);
+}
+
+TEST(DarwinTest, play_3) {
+	Species hopper = Species('h');
+	hopper.add_instruction(0, 0);
+    hopper.add_instruction(8, 0);
+
+    Species rover = Species('r');
+    rover.add_instruction(7, 9);
+    rover.add_instruction(4, 7);
+    rover.add_instruction(6, 5);
+    rover.add_instruction(1, 0);
+    rover.add_instruction(8, 0);
+    rover.add_instruction(2, 0);
+    rover.add_instruction(8, 0);
+    rover.add_instruction(0, 0);
+    rover.add_instruction(8, 0);
+    rover.add_instruction(3, 0);
+    rover.add_instruction(8, 0);
+
+    Creature h1 = Creature(hopper, 2, 2, 3, 7, 7, 0);
+    Creature h2 = Creature(hopper, 1, 5, 2, 7, 7, 1);
+    Creature r1 = Creature(rover, 5, 6, 1, 7, 7, 2);
+    Creature r2 = Creature(rover, 4, 3, 0, 7, 7, 3);
+
+    Darwin darwin = Darwin(7, 7);
+    darwin.add_creature(h1, 2, 2);
+    darwin.add_creature(h2, 1, 5);
+    darwin.add_creature(r1, 5, 6);
+    darwin.add_creature(r2, 4, 3);
+
+    darwin.play();
+    ASSERT_EQ(darwin.board[3][2], 0);
+    ASSERT_EQ(darwin.board[1][6], 1);
+    ASSERT_EQ(darwin.board[4][6], 2);
+    ASSERT_EQ(darwin.board[4][2], 3);
+    ASSERT_EQ(darwin.board[2][2], -1);
+    ASSERT_EQ(darwin.board[1][5], -1);
+    ASSERT_EQ(darwin.board[5][6], -1);
+    ASSERT_EQ(darwin.board[4][3], -1);
+}
 
 // -----------
 // print_board
 // -----------
 
 TEST(DarwinTest, print_1) {
-Species food = Species('f');
+	Species food = Species('f');
 
-Creature f1 = Creature(food, 0, 0, 0, 2, 2, 0);
-Creature f2 = Creature(food, 1, 1, 0, 2, 2, 1);
-Darwin darwin = Darwin(2, 2);
-darwin.add_creature(f1, 0, 0);
-darwin.add_creature(f2, 1, 1);
+	Creature f1 = Creature(food, 0, 0, 0, 2, 2, 0);
+	Creature f2 = Creature(food, 1, 1, 0, 2, 2, 1);
+	Darwin darwin = Darwin(2, 2);
+	darwin.add_creature(f1, 0, 0);
+	darwin.add_creature(f2, 1, 1);
 
-ostringstream w;
-darwin.print_board(w, 0);
+	ostringstream w;
+	darwin.print_board(w, 0);
 
-ASSERT_EQ("Turn = 0.\n  01\n0 f.\n1 .f\n\n", w.str());
-
+	ASSERT_EQ("Turn = 0.\n  01\n0 f.\n1 .f\n\n", w.str());
 }
 
 TEST(DarwinTest, print_2) {
-Species food = Species('f');
-Species hopper = Species('h');
-Species rover = Species('r');
+	Species food = Species('f');
+	Species hopper = Species('h');
+	Species rover = Species('r');
 
-Creature f1 = Creature(food, 2, 1, 0, 4, 4, 0);
-Creature f2 = Creature(food, 3, 0, 0, 4, 4, 1);
-Creature h1 = Creature(hopper, 1, 1, 0, 4, 4, 1);
-Creature h2 = Creature(hopper, 0, 3, 0, 4, 4, 1);
-Creature r1 = Creature(rover, 2, 2, 0, 4, 4, 1);
-Creature r2 = Creature(rover, 1, 0, 0, 4, 4, 1);
+	Creature f1 = Creature(food, 2, 1, 0, 4, 4, 0);
+	Creature f2 = Creature(food, 3, 0, 0, 4, 4, 1);
+	Creature h1 = Creature(hopper, 1, 1, 0, 4, 4, 1);
+	Creature h2 = Creature(hopper, 0, 3, 0, 4, 4, 1);
+	Creature r1 = Creature(rover, 2, 2, 0, 4, 4, 1);
+	Creature r2 = Creature(rover, 1, 0, 0, 4, 4, 1);
 
-Darwin darwin = Darwin(4, 4);
-darwin.add_creature(f1, 2, 1);
-darwin.add_creature(f2, 3, 0);
-darwin.add_creature(h1, 1, 1);
-darwin.add_creature(h2, 0, 3);
-darwin.add_creature(r1, 2, 2);
-darwin.add_creature(r2, 1, 0);
+	Darwin darwin = Darwin(4, 4);
+	darwin.add_creature(f1, 2, 1);
+	darwin.add_creature(f2, 3, 0);
+	darwin.add_creature(h1, 1, 1);
+	darwin.add_creature(h2, 0, 3);
+	darwin.add_creature(r1, 2, 2);
+	darwin.add_creature(r2, 1, 0);
 
-ostringstream w;
-darwin.print_board(w, 0);
+	ostringstream w;
+	darwin.print_board(w, 0);
 
-ASSERT_EQ("Turn = 0.\n  0123\n0 ...r\n1 rr..\n2 .fr.\n3 r...\n\n", w.str());
+	ASSERT_EQ("Turn = 0.\n  0123\n0 ...r\n1 rr..\n2 .fr.\n3 r...\n\n", w.str());
 }
 
 TEST(DarwinTest, print_3) {
