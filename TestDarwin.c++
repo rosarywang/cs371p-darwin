@@ -983,7 +983,13 @@ TEST(DarwinTest, at_2) {
 
 	Darwin darwin = Darwin(13, 13);
 	darwin.add_creature(f, 6, 6);
-	//test the exception
+	// try {
+	// 	darwin.at(0, 0);
+	// 	FAIL();
+	// } catch(std::out_of_range& e) {
+	// 	ASSERT_TRUE(1);
+	// 	ASSERT_EQ(darwin.board[0][0], -1);
+	// }
 }
 
 TEST(DarwinTest, at_3) {
@@ -998,7 +1004,14 @@ TEST(DarwinTest, at_3) {
 
 	// ASSERT_EQ(darwin.at(3, 1), f1);
 	// ASSERT_EQ(darwin.at(0, 3), f2);
-	//test the exception
+	/** test the exception **/
+	// try {
+	// 	darwin.at(1, 3);
+	// 	FAIL();
+	// } catch(std::out_of_range& e) {
+	// 	ASSERT_TRUE(1);
+	// 	ASSERT_EQ(darwin.board[1][3], -1);
+	// }
 }
 
 // -------
@@ -1220,7 +1233,7 @@ TEST(DarwinTest, get_enemy_2) {
 	Creature& e2 = darwin.get_enemy(r, 1, 3, 0);
 }
 
-TEST(DarwinTest, get_enemy_2) {
+TEST(DarwinTest, get_enemy_3) {
 	Species ape = Species('a');
 	Species bee = Species('b');
 

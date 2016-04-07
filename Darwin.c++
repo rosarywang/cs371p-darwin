@@ -46,7 +46,10 @@ using namespace std;
 	// --
 
 	const Creature& Darwin::at(int row, int col) {
-		return this->creatures[this->board[row][col]];
+		if(board[row][col] != -1)
+			return this->creatures[this->board[row][col]];
+	 	else
+			throw std::out_of_range ("There is not a Creature here!");
 	}
 
 	// -------

@@ -111,7 +111,7 @@ class Darwin {
 		* find the creature at the given position
 		* @param int row
 		* @param int column
-		* @return a creature at the given position
+		* @return a creature at the given position or out of range exception
 		*/
 		
 		const Creature& at(int, int);
