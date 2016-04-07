@@ -198,8 +198,6 @@ int main () {
     // ------------
 
     cout << "*** Darwin 72x72 without Best ***" << endl;
-    cout << "..." << endl;
-    cout << endl;
     srand(0);
     /*
     Randomly place the following creatures facing randomly.
@@ -341,7 +339,6 @@ int main () {
     // ------------
 
     cout << "*** Darwin 72x72 with Best ***" << endl;
-    cout << "..." << endl;
     srand(0);
     /*
     Randomly place the following creatures facing randomly.
