@@ -950,9 +950,116 @@ TEST(DarwinTest, is_wall_3) {
 // is_empty
 // --------
 
+TEST(DarwinTest, is_empty_1) {
+	Species food = Species('f');
+	Creature f = Creature(food, 0, 2, 1, 3, 3, 0);
+	Creature f1 = Creature(food, 1, 0, 1, 3, 3, 1);
+	Darwin d = Darwin(3, 3);
+	d.add_creature(f, 0, 2);
+	d.add_creature(f1, 1, 0);
+
+	ASSERT_TRUE(d.is_empty(1, 1, 2));
+	ASSERT_FALSE(d.is_empty(1, 2, 1));
+	ASSERT_FALSE(d.is_empty(0, 1, 2));
+}
+
+TEST(DarwinTest, is_empty_2) {
+	Species food = Species('f');
+	Species hopper = Species('h');
+	Creature f =  Creature(food, 3, 4, 1, 5, 5, 0);
+	Creature h =  Creature(hopper, 0, 3, 2, 5, 5, 0);
+
+	Darwin d = Darwin(5, 5);
+	d.add_creature(f, 3, 4);
+	d.add_creature(h, 0, 3);
+
+	ASSERT_TRUE(d.is_empty(2, 2, 0));
+	ASSERT_FALSE(d.is_empty(3, 3, 2));
+	ASSERT_FALSE(d.is_empty(2, 4, 3));
+	ASSERT_FALSE(d.is_empty(4, 4, 1));
+	ASSERT_FALSE(d.is_empty(1, 3, 1));
+	ASSERT_TRUE(d.is_empty(1, 1, 2));
+	
+}
+
+TEST(DarwinTest, is_empty_3) {
+	Species food = Species('f');
+	Creature f = Creature(food, 0, 0, 2, 2, 2, 0);
+	Creature f2 = Creature(food, 0, 1, 2, 2, 2, 1);
+	Creature f3 = Creature(food, 1, 0, 2, 2, 2, 2);
+	Creature f4 = Creature(food, 1, 1, 2, 2, 2, 3);
+
+	Darwin d = Darwin(2, 2);
+	d.add_creature(f, 0, 0);
+	d.add_creature(f2, 0, 1);
+	d.add_creature(f3, 1, 0);
+	d.add_creature(f4, 1, 1);
+
+	ASSERT_FALSE(d.is_empty(0, 0, 3));
+	ASSERT_FALSE(d.is_empty(0, 1, 0));
+	ASSERT_FALSE(d.is_empty(1, 0, 2));
+	ASSERT_FALSE(d.is_empty(1, 1, 0));
+}
+
 // --------
 // is_enemy
 // --------
+TEST(DarwinTest, is_enemy_1) {
+	Species cat = Species('c');
+	Species dog = Species('d');
+
+	Creature c = Creature(cat, 1, 2, 3, 3, 3, 0);
+	Creature d = Creature(dog, 2, 2, 1, 3, 1, 1);
+
+	Darwin darwin = Darwin(3, 3);
+	darwin.add_creature(c, 1, 2);
+	darwin.add_creature(d, 2, 2);
+
+	ASSERT_TRUE(darwin.is_enemy(c, 1, 2, 3));
+	ASSERT_TRUE(darwin.is_enemy(d, 2, 2, 1));
+}
+
+TEST(DarwinTest, is_enemy_2) {
+	Species cat = Species('c');
+	Species dog = Species('d');
+
+	Creature c1 = Creature(cat, 0, 0, 3, 2, 2, 0);
+	Creature c2 = Creature(cat, 0, 1, 3, 2, 2, 1);
+	Creature d1 = Creature(dog, 1, 0, 0, 2, 2, 2);
+	Creature d2 = Creature(dog, 1, 1, 1, 2, 2, 3);
+
+	Darwin d = Darwin(2, 2);
+	d.add_creature(c1, 0, 0);
+	d.add_creature(c2, 0, 1);
+	d.add_creature(d1, 1, 0);
+	d.add_creature(d2, 1, 1);
+
+	ASSERT_FALSE(d.is_enemy(c1, 0, 0, 2));
+	ASSERT_TRUE(d.is_enemy(c1, 0, 0, 3));
+	ASSERT_FALSE(d.is_enemy(d1, 1, 1, 0));
+	ASSERT_TRUE(d.is_enemy(d1, 1, 1, 1));
+}
+
+TEST(DarwinTest, is_enemy_3) {
+	Species cat = Species('c');
+	Species dog = Species('d');
+	Species frog = Species('f');
+
+	Creature c1 = Creature(cat, 0, 1, 3, 4, 4, 0);
+	Creature d1 = Creature(dog, 1, 0, 0, 4, 4, 1);
+	Creature f1 = Creature(frog, 0, 0, 2, 4, 4, 2);
+
+	Darwin d = Darwin(4, 4);
+	d.add_creature(c1, 0, 1);
+	d.add_creature(d1, 1, 0);
+	d.add_creature(f1, 0, 0);
+
+	ASSERT_FALSE(d.is_enemy(c1, 0, 1, 2));
+	ASSERT_TRUE(d.is_enemy(d1, 1, 0, 1));
+	ASSERT_TRUE(d.is_enemy(f1, 0, 0, 2));
+	ASSERT_TRUE(d.is_enemy(f1, 0, 0, 3));
+	ASSERT_FALSE(d.is_enemy(d1, 1, 0, 2));
+}
 
 // ---------
 // get_enemy
