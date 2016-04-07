@@ -59,6 +59,7 @@ public:
 	FRIEND_TEST(DarwinCreature, go_2);
 	FRIEND_TEST(DarwinCreature, go_3);
 	FRIEND_TEST(DarwinTest, at_1);
+	FRIEND_TEST(DarwinTest, at_3);
 	FRIEND_TEST(DarwinTest, play_1);
 
 
